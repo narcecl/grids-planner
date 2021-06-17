@@ -1,18 +1,27 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<div>
+		<mainHeader/>
+
+		<dragArea/>
+		<postArea/>
+
+		<mainFooter/>
+	</div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import mainHeader from '@/components/global/mainHeader.vue';
+import dragArea from '@/components/global/dragArea.vue';
+import postArea from '@/components/global/postArea.vue';
+import mainFooter from '@/components/global/mainFooter.vue';
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+	name: 'Home',
+	components: {
+		mainHeader,
+		dragArea,
+		postArea,
+		mainFooter
+	}
 }
 </script>
