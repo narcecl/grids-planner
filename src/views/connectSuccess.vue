@@ -42,6 +42,11 @@
 				})
 				.then(response => {
 					this.setLocalStorage(response.data);
+					this.ready = true;
+
+					setTimeout(() => {
+						window.close();
+					}, 500);
 				})
 				.catch(error => {
 					console.log(error);
@@ -50,17 +55,6 @@
 			setLocalStorage: function(data){
 				localStorage.setItem('instagram', [data.access_token, data.user_id].join(','));
 			},
-			setCookie: function(data){
-				// Definimos el tiempo de expiracion de la cookie (1 hora)
-				let now = new Date();
-				now.setTime(now.getTime() + 1 * 3600 * 1000);
-
-				// Seteamos el valor (access token + user_id)
-				let cookieValue = [data.access_token, data.user_id].join(',') + ";"
-
-				// Seteamos la cookie
-				document.cookie = "instagram=" + cookieValue + ';' + 'expires=' + now.toUTCString() + ';'
-			}
 		},
 		created: function(){
 			let code = this.searchParams('code');
