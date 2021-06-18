@@ -5,11 +5,11 @@ export default{
 		posts: []
 	},
 	getters: {
-		getTheme: function( state ){
+		getTheme: function(state){
 			// Devuelve el tema (Claro/Oscuro)
 			return state.theme;
 		},
-		getPosts: function( state ){
+		getPosts: function(state){
 			// Devuelve array de posts
 			return state.posts;
 		}
@@ -50,7 +50,7 @@ export default{
 			state.instagram_login = window.open('https://www.instagram.com/oauth/authorize' + url_string, '', prop_string);
 		},
 		closeLogin: function(state){
-			// obtenemos el codigo de verificacion y cerramos el login
+			// Cerramos el login de verificación de instagram
 			state.instagram_login.close();
 		}
 	}
