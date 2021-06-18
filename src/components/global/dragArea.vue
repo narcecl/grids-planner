@@ -24,7 +24,7 @@
 		methods: {
 			addPost: function(items){
 				// Agregamos el nuevo item al store
-				Array.from(items).forEach(item => this.$store.commit('addPost', URL.createObjectURL(item)) );
+				Array.from(items).forEach(item => this.$store.commit('addPost', {image: URL.createObjectURL(item), drag: true}) );
 			},
 			handleFile: function(e){
 				// Si encontramos un archivo, lo agregamos

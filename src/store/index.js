@@ -14,14 +14,22 @@ export default{
 			return state.posts;
 		}
 	},
+	actions: {
+		clearPosts: function(context){
+			context.commit('clearPosts');
+		}
+	},
 	mutations: {
+		clearPosts: function(state){
+			state.posts = [];
+		},
 		toggleTheme: function(state, theme = null){
 			if( theme ) state.theme = theme;
 			else state.theme = (state.theme === 'dark') ? 'light' : 'dark';
 		},
 		addPost: function(state, value){
 			// Añade un post desde el dragArea al state
-			let image = { image: value };
+			let image = value;
 
 			if( !state.posts.length ){
 				// Si no hay posts, agregamos con push

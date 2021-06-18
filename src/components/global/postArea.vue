@@ -1,22 +1,28 @@
 <template>
-	<section class="pt-4" :class="{ 'pb-48': postsList.length }">
+	<section class="pt-4" :class="{ 'pb-48': postsList.length || !postsReady && (typeof instagramStorage === 'object')}">
+		<div class="d-flex align-items-center justify-content-center" v-if="!postsReady && (typeof instagramStorage === 'object')">
+			<div>
+				<loading/>
+				<p class="mt-16">Cargando posts de Instagram</p>
+			</div>
+		</div>
+
 		<div :class="{container: !isMobileViewport}">
 			<div class="post-area">
 				<div class="cont" ref="cont">
-					<draggable class="row total" :class="{extramini: isMobileViewport}" v-model="postsList" @start="drag=true" @end="drag=false">
-						<div class="col-4" v-for="(post, index) in postsList" :key="index">
-							<div class="grid-item" :style="[sizeController, {backgroundImage: 'url(' + post.image + ')' }]">
+					<draggable class="row total" :class="{extramini: isMobileViewport}" v-model="postsList" :move="checkMove" @start="drag=true" @end="drag=false">
+						<div class="col-4" v-for="(post, index) in postsList" :key="index" @dragstart="checkDrag($event)" :draggable="post.drag" :class="post.drag ? 'draggable' : 'no-draggable'">
+							<div class="grid-item" :style="[sizeController, {backgroundImage: 'url(' + post.image + ')' }]" :class="{drag: post.drag}">
 								<div class="grid-cont">
-									<a href="#" class="delete-item" @click.prevent="confirmDelete(index)">
+									<a href="#" class="delete-item" @click.prevent="confirmDelete(index)" v-if="post.drag">
 										<span class="fa fa-trash"></span>
 									</a>
+									<span v-else class="from-instagram fa fa-instagram"></span>
 								</div>
 							</div>
 						</div>
 					</draggable>
 				</div>
-
-				<loading v-if="!ready && instagramStorage"/>
 
 				<transition name="fade">
 					<div class="prompt" v-if="prompt">
@@ -39,14 +45,7 @@
 </template>
 
 <script>
-	import draggable from 'vuedraggable';
-	import btn from '@/components/ui/button.vue';
-
 	export default{
-		components: {
-			btn,
-			draggable
-		},
 		data: function(){
 			return {
 				prompt: false,
@@ -55,7 +54,7 @@
 				items_per_row: 3,
 				item_width: null,
 				containerWidth: 0,
-				ready: false,
+				postsReady: false,
 				instagramStorage: null
 			}
 		},
@@ -86,6 +85,17 @@
 			},
 		},
 		methods: {
+			checkMove: function(evt){
+				if( evt.related.classList.contains('no-draggable') ){
+					return false;
+				}
+			},
+			checkDrag: function(event){
+				if( event.target.classList.contains('no-draggable') ){
+					event.preventDefault();
+					return false;
+				}
+			},
 			confirmDelete: function(index){
 				this.selected_index = index;
 				this.prompt = true;
@@ -108,20 +118,20 @@
 					}
 				})
 				.then(response => {
-					console.log('response =>', response.data);
 					let data = response.data;
 					let posts = data.data;
+
+					this.$store.dispatch('clearPosts');
 
 					if( posts.length ){
 						posts.reverse();
 
 						posts.forEach((item, index) => {
-							this.$store.commit('addPost', item.media_url);
+							this.$store.commit('addPost', {image: item.media_url, drag: false});
 
 							if( index === (posts.length-1) ){
 								// Llegamos al final
-								this.ready = true;
-								// window.close();
+								this.postsReady = true;
 							}
 						});
 					}
@@ -130,9 +140,6 @@
 					console.log(error);
 				});
 			}
-		},
-		created: function(){
-			//console.log('posts =>', this.$store.getters.getPosts);
 		},
 		mounted: function(){
 			this.ready = true;
@@ -181,9 +188,12 @@
 	}
 
 	.grid-item{
-		cursor: move;
 		background-size: cover;
 		background-position: center;
+
+		&.drag{
+			cursor: move;
+		}
 
 		.grid-cont{
 			width: 100%;
@@ -195,6 +205,14 @@
 				.delete-item{
 					opacity:1;
 				}
+			}
+
+			.from-instagram{
+				position: absolute;
+				right:10px;
+				top: 10px;
+				font-size: 32px;
+				color: #fff;
 			}
 
 			.delete-item{
