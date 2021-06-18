@@ -36,13 +36,6 @@ const $config = {
 }
 
 Vue.config.productionTip = false;
-
-// new Vue({
-// 	router,
-// 	store,
-// 	render: function (h) { return h(App) }
-// }).$mount('#app')
-
 Vue.use($config);
 Vue.use(Vuex);
 
