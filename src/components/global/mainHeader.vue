@@ -32,7 +32,7 @@
 		},
 		methods: {
 			openLogin: function(){
-				this.$store.dispatch('showLogin');
+				this.$store.commit('showLogin', this.path.redirect);
 			}
 		}
 	}

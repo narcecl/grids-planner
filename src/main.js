@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import App from './App.vue';
 import router from './router';
 import axios from 'axios';
 import draggable from 'vuedraggable';
-import $store from './store';
+import $store from '@/store/index.js';
 import "@/assets/scss/main.scss";
 
 // Mixins
 import mobile from '@/mixins/mobile';
+import path from '@/mixins/path';
 
 // Components
 import mainHeader from '@/components/global/mainHeader.vue';
@@ -24,6 +24,7 @@ const $config = {
 
 		// Mixins
 		Vue.mixin(mobile);
+		Vue.mixin(path)
 
 		// Component
 		Vue.component('main-header', mainHeader);

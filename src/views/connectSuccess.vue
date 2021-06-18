@@ -38,7 +38,7 @@
 						client_secret: '3b211b44e23f75a9f6c546ecee953841',
 						code: code,
 						grant_type: 'authorization_code',
-						redirect_uri: 'https://grids-planner.herokuapp.com/'
+						redirect_uri: this.path,
 					}  
 				})
 				.then( response => {
