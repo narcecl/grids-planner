@@ -1,16 +1,19 @@
 <template>
 	<div class="connect-page">
 		<div class="d-flex h-100 align-items-center justify-content-center">
-			<div class="sk-cube-grid">
-				<div class="sk-cube sk-cube1"></div>
-				<div class="sk-cube sk-cube2"></div>
-				<div class="sk-cube sk-cube3"></div>
-				<div class="sk-cube sk-cube4"></div>
-				<div class="sk-cube sk-cube5"></div>
-				<div class="sk-cube sk-cube6"></div>
-				<div class="sk-cube sk-cube7"></div>
-				<div class="sk-cube sk-cube8"></div>
-				<div class="sk-cube sk-cube9"></div>
+			<div>
+				<div class="sk-cube-grid">
+					<div class="sk-cube sk-cube1"></div>
+					<div class="sk-cube sk-cube2"></div>
+					<div class="sk-cube sk-cube3"></div>
+					<div class="sk-cube sk-cube4"></div>
+					<div class="sk-cube sk-cube5"></div>
+					<div class="sk-cube sk-cube6"></div>
+					<div class="sk-cube sk-cube7"></div>
+					<div class="sk-cube sk-cube8"></div>
+					<div class="sk-cube sk-cube9"></div>
+				</div>
+				<p class="text-center mt-16" v-if="ready">All done</p>
 			</div>
 		</div>
 	</div>
@@ -22,6 +25,7 @@
 	export default{
 		data: function(){
 			return {
+				ready: true,
 				access_uri: 'https://api.instagram.com/oauth/access_token',
 				instagram_access: null
 			};
@@ -61,7 +65,7 @@
 					url: 'https://graph.instagram.com/v11.0/'+ this.instagram_access.user_id +'/media',
 					params: {
 						access_token: this.instagram_access.access_token,
-						fields: 'thumbnail_url,media_url'
+						fields: 'thumbnail_url, media_url'
 					}
 				})
 				.then(response => {
@@ -73,7 +77,10 @@
 						posts.reverse();
 						posts.forEach((item, index) => {
 							this.$store.commit('addPost', item.media_url);
-							// if( index === (posts.length-1) ) this.$store.commit('closeLogin');
+							if( index === (posts.length-1) ){
+								this.ready = true;
+								//this.$store.commit('closeLogin');
+							}
 						});
 					}
 				})

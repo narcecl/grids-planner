@@ -55,6 +55,11 @@
 				containerWidth: 0
 			}
 		},
+		watch: {
+			posts: function(newPosts, oldPosts) {
+				console.log('newPosts =>', newPosts);
+			}
+		},
 		computed: {
 			postsList: {
 				get: function(){
