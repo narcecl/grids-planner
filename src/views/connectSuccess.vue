@@ -17,38 +17,76 @@
 </template>
 
 <script>
+	import qs from 'qs';
+
 	export default{
+		data: function(){
+			return {
+				access_uri: 'https://api.instagram.com/oauth/access_token',
+				instagram_access: null
+			};
+		},
 		methods: {
 			searchParams: function(param){
 				let url_string = window.location.href;
 				let new_url = new URL(url_string);
 				return new_url.searchParams.get(param);
+			},
+			getAccessToken: function(code){
+				this.$axios({
+					method: 'post',
+					url: this.access_uri,
+					headers: { 
+						'Content-Type': 'application/x-www-form-urlencoded', 
+						'Cookie': 'csrftoken=u1UrQAVnU2lwuAH6eSBAK0wSaAqbBS6g; ig_nrcb=1'
+					},
+					data: qs.stringify({
+						'client_id': '476586483443014',
+						'client_secret': '3b211b44e23f75a9f6c546ecee953841',
+						'code': code.split('#_')[0],
+						'grant_type': 'authorization_code',
+						'redirect_uri': this.path.redirect
+					})
+				})
+				.then(response => {
+					this.instagram_access = response.data;
+					this.getUserMedia();
+				})
+				.catch(error => {
+					console.log(error);
+				});
+			},
+			getUserMedia: function(){
+				this.$axios({
+					url: 'https://graph.instagram.com/v11.0/'+ this.instagram_access.user_id +'/media',
+					params: {
+						access_token: this.instagram_access.access_token,
+						fields: 'thumbnail_url,media_url'
+					}
+				})
+				.then(response => {
+					console.log('response =>', response.data);
+					let data = response.data;
+					let posts = data.data;
+
+					if( posts.length ){
+						posts.reverse();
+						posts.forEach((item, index) => {
+							this.$store.commit('addPost', item.media_url);
+							if( index === (posts.length-1) ) this.$store.commit('closeLogin');
+						});
+					}
+				})
+				.catch(error => {
+					console.log(error);
+				});
 			}
 		},
 		created: function(){
 			let code = this.searchParams('code');
 
 			if( code ){
-				//this.$router.push('/');
-				let headers = new Headers();
-					headers.append('Content-Type', 'x-www-form-urlencoded');
-					headers.append('client_id', '476586483443014');
-					headers.append('client_secret', '3b211b44e23f75a9f6c546ecee953841');
-					headers.append('code', code);
-					headers.append('grant_type', 'authorization_code');
-					headers.append('redirect_uri', this.path.redirect);
-
-				this.$axios({
-					method: 'post',
-					url: 'https://api.instagram.com/oauth/access_token',
-					headers: headers
-				})
-				.then( response => {
-					console.log('response => ', response);
-				})
-				.catch( error => {
-					console.error('error =>', error);
-				});
+				this.getAccessToken(code);
 			}
 		}
 	}
