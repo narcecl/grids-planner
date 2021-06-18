@@ -33,13 +33,13 @@
 				this.$axios({
 					method: 'post',
 					url: 'https://api.instagram.com/oauth/access_token',
-					data: {
+					headers: {
 						client_id: '476586483443014',
 						client_secret: '3b211b44e23f75a9f6c546ecee953841',
 						code: code,
 						grant_type: 'authorization_code',
-						redirect_uri: this.path.redirect,
-					}  
+						redirect_uri: this.path.redirect
+					}
 				})
 				.then( response => {
 					console.log('response => ', response);
