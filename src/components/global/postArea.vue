@@ -16,6 +16,8 @@
 					</draggable>
 				</div>
 
+				<loading v-if="!ready && instagramStorage"/>
+
 				<transition name="fade">
 					<div class="prompt" v-if="prompt">
 						<div class="h-100 d-flex align-items-center justify-content-center">
@@ -52,12 +54,14 @@
 				ready: false,
 				items_per_row: 3,
 				item_width: null,
-				containerWidth: 0
+				containerWidth: 0,
+				ready: false,
+				instagramStorage: null
 			}
 		},
 		watch: {
-			posts: function(newPosts, oldPosts) {
-				console.log('newPosts =>', newPosts);
+			instagramStorage: function(value){
+				this.getUserMedia();
 			}
 		},
 		computed: {
@@ -79,7 +83,7 @@
 						height: item_width > 0 ? item_width + 'px' : false
 					};
 				}
-			}
+			},
 		},
 		methods: {
 			confirmDelete: function(index){
@@ -94,6 +98,37 @@
 			cancelDelete: function(){
 				this.prompt = false;
 				this.selected_index = null;
+			},
+			getUserMedia: function(){
+				this.$axios({
+					url: 'https://graph.instagram.com/v11.0/'+ this.instagramStorage.user_id +'/media',
+					params: {
+						access_token: this.instagramStorage.access_token,
+						fields: 'media_url'
+					}
+				})
+				.then(response => {
+					console.log('response =>', response.data);
+					let data = response.data;
+					let posts = data.data;
+
+					if( posts.length ){
+						posts.reverse();
+
+						posts.forEach((item, index) => {
+							this.$store.commit('addPost', item.media_url);
+
+							if( index === (posts.length-1) ){
+								// Llegamos al final
+								this.ready = true;
+								// window.close();
+							}
+						});
+					}
+				})
+				.catch(error => {
+					console.log(error);
+				});
 			}
 		},
 		created: function(){
@@ -103,9 +138,31 @@
 			this.ready = true;
 			this.containerWidth = this.$refs.cont.offsetWidth;
 
+			// Hacemos la verificación del item
+			if( localStorage.getItem('instagram') ){
+				let storage = localStorage.getItem('instagram').split(',');
+				this.instagramStorage = {
+					access_token: storage[0],
+					user_id: storage[1]
+				};
+			}
+
+			// Resize event para determinar el alto/ancho de las cajas
 			window.addEventListener('resize', () => {
 				if( typeof this.$refs.cont !== 'undefined' ){
 					this.containerWidth = this.$refs.cont.offsetWidth;
+				}
+			});
+
+			// Agregamos el evento para saber si se agrega la storage en otra ventana
+			window.addEventListener('storage', () => {
+				if( localStorage.getItem('instagram') ){
+					// Si existe la actualizamos
+					let storage = localStorage.getItem('instagram').split(',');
+					this.instagramStorage = {
+						access_token: storage[0],
+						user_id: storage[1]
+					};
 				}
 			});
 		}
