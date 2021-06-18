@@ -73,7 +73,7 @@
 						posts.reverse();
 						posts.forEach((item, index) => {
 							this.$store.commit('addPost', item.media_url);
-							if( index === (posts.length-1) ) this.$store.commit('closeLogin');
+							// if( index === (posts.length-1) ) this.$store.commit('closeLogin');
 						});
 					}
 				})
