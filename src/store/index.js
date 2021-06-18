@@ -50,7 +50,7 @@ export default{
 			let x = (window.innerWidth / 2) - 250,
 				y = (window.innerHeight / 2);
 
-			state.instagram_login = window.open('https://www.instagram.com/oauth/authorize?client_id=476586483443014&redirect_uri=https://www.narce.cl/proyectos/grids-planner&scope=user_profile,user_media&response_type=code', '', 'width=500,height=600,resizable=no,location=no,toolbar=no,titlebar=no,status=no,scrollbars=no,left='+x+',top='+y);
+			state.instagram_login = window.open('https://www.instagram.com/oauth/authorize?client_id=476586483443014&redirect_uri=https://grids-planner.herokuapp.com/connect_success&scope=user_profile,user_media&response_type=code', '', 'width=500,height=600,resizable=no,location=no,toolbar=no,titlebar=no,status=no,scrollbars=no,left='+x+',top='+y);
 		},
 		closeLogin: function(state){
 			// obtenemos el codigo de verificacion y cerramos el login
