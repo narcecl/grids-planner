@@ -25,7 +25,7 @@
 	export default{
 		data: function(){
 			return {
-				ready: true,
+				ready: false,
 				access_uri: 'https://api.instagram.com/oauth/access_token',
 				instagram_access: null
 			};
@@ -41,8 +41,7 @@
 					method: 'post',
 					url: this.access_uri,
 					headers: { 
-						'Content-Type': 'application/x-www-form-urlencoded', 
-						'Cookie': 'csrftoken=u1UrQAVnU2lwuAH6eSBAK0wSaAqbBS6g; ig_nrcb=1'
+						'Content-Type': 'application/x-www-form-urlencoded'
 					},
 					data: qs.stringify({
 						'client_id': '476586483443014',
@@ -65,7 +64,7 @@
 					url: 'https://graph.instagram.com/v11.0/'+ this.instagram_access.user_id +'/media',
 					params: {
 						access_token: this.instagram_access.access_token,
-						fields: 'thumbnail_url, media_url'
+						fields: 'media_url'
 					}
 				})
 				.then(response => {
@@ -79,7 +78,7 @@
 							this.$store.commit('addPost', item.media_url);
 							if( index === (posts.length-1) ){
 								this.ready = true;
-								//this.$store.commit('closeLogin');
+								window.close();
 							}
 						});
 					}
@@ -91,10 +90,7 @@
 		},
 		created: function(){
 			let code = this.searchParams('code');
-
-			if( code ){
-				this.getAccessToken(code);
-			}
+			if( code ) this.getAccessToken(code);
 		}
 	}
 </script>
