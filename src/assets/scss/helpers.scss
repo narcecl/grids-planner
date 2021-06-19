@@ -109,7 +109,7 @@ figure{
 .w-height{height:auto;}
 
 $max: 100;
-$step: 4;
+$step: 5;
 @for $i from 0 through ceil($max/$step) {
 	$value: $i * $step;
 	.w-#{$value}{width: 0% + $value}

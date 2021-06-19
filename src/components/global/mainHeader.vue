@@ -2,14 +2,14 @@
 	<div class="app-header">
 		<div class="container">
 			<div class="row align-items-center">
-				<div class="col-8">
+				<div class="col-6 col-sm-8">
 					<div class="logo d-flex align-items-center">
 						<span class="fa fa-th-large isotype"></span>
 						<h1>Grids <span>planner</span></h1>
-						<span>Instagram Feed Planner</span>
+						<span class="text d-none d-sm-block">Instagram Feed Planner</span>
 					</div>
 				</div>
-				<div class="col-4">
+				<div class="col-6 col-sm-4">
 					<div class="d-flex align-items-center justify-content-end">
 						<a href="#" class="btn-ingresar" @click.prevent="openLogin" v-if="!$store.getters.loginStatus">
 							<span class="fa fa-instagram"></span>
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-
 	export default{
 		data: function(){
 			return {
@@ -47,15 +46,13 @@
 			.isotype{
 				font-size: 48px;
 				margin-right: 16px;
+				color: rgba(255,255,255,.8);
 			}
 
 			h1{
 				color:#fff;
 				font-size: 26px;
 				font-weight:700;
-				border-right:solid 1px rgba(255,255,255,.5);
-				padding-right:20px;
-				margin-right:20px;
 
 				span{
 					color: #fff;;
@@ -67,10 +64,12 @@
 				}
 			}
 
-			span{
+			.text{
+				padding:12px 0 12px 16px;
+				margin-left:20px;
+				border-left:solid 1px rgba(255,255,255,.5);
 				font-size: 13px;
 				color: rgba(255,255,255,.8);
-				
 			}
 		}
 

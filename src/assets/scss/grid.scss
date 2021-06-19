@@ -37,12 +37,12 @@ html{box-sizing:border-box;-ms-overflow-style:scrollbar;}
 	margin-left:-15px;
 
 	&.extramini{
-		margin-left: -2.5px;
-		margin-right: -2.5px;
+		margin-left: -1.25px;
+		margin-right: -1.25px;
 
 		> .col, > [class*="col-"], > *{
-			padding-left:2.5px;
-			padding-right:2.5px;
+			padding-left:1.25px;
+			padding-right:1.25px;
 		}
 	}
 
@@ -66,8 +66,8 @@ html{box-sizing:border-box;-ms-overflow-style:scrollbar;}
 		}
 
 		&.extramini{
-			margin:-2.5px;
-			> .col, > [class*="col-"], > *{padding:2.5px;}
+			margin:-1.5px;
+			> .col, > [class*="col-"], > *{padding:1.5px;}
 		}
 	}
 

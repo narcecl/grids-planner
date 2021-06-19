@@ -1,7 +1,7 @@
 <template>
 	<section :class="{ 'pb-48': postsList.length}">
 		<div :class="{container: !isMobileViewport}">
-			<div class="d-flex align-items-center justify-content-center" v-if="gettingPosts && !postsReady">
+			<div class="d-flex align-items-center justify-content-center mb-48" v-if="gettingPosts && !postsReady">
 				<div>
 					<loading/>
 					<p class="mt-16">Cargando tus posts desde Instagram</p>
@@ -36,7 +36,7 @@
 				<div class="h-100 d-flex align-items-center justify-content-center">
 					<div class="cont text-center">
 						<span class="f-40 text-white fa fa-trash"></span>
-						<div class="w-60 w-sm-100 center">
+						<div class="w-85 w-sm-100 center">
 							<h6 class="heading-4 text-white mt-16">¿Estás seguro que quieres eliminar esta imagen?</h6>
 							<p class="f-large text-white">Esta acción no se puede deshacer y si la necesitas, tendrás que subirla nuevamente.</p>
 						</div>
