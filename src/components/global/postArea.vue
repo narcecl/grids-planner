@@ -35,12 +35,15 @@
 			<div class="prompt" v-if="prompt">
 				<div class="h-100 d-flex align-items-center justify-content-center">
 					<div class="cont text-center">
-						<h6 class="heading-4 text-white">¿Estás seguro que quieres eliminar esta imagen?</h6>
-						<p class="f-large text-white">Esta acción no se puede deshacer y si la necesitas, tendrás que subirla de nuevo.</p>
+						<span class="f-40 text-white fa fa-trash"></span>
+						<div class="w-60 w-sm-100 center">
+							<h6 class="heading-4 text-white mt-16">¿Estás seguro que quieres eliminar esta imagen?</h6>
+							<p class="f-large text-white">Esta acción no se puede deshacer y si la necesitas, tendrás que subirla nuevamente.</p>
+						</div>
 
 						<div class="btn-holder mt-32">
 							<btn @click="deletePost" text="Aceptar"/>
-							<btn @click="cancelDelete" text="Cancelar"/>
+							<btn @click="cancelDelete" text="Cancelar" type="secondary"/>
 						</div>
 					</div>
 				</div>
@@ -198,7 +201,7 @@
 		position: fixed;
 		left: 0;
 		top: 0;
-		background: rgba(0,0,0,.8);
+		background: rgba(0,0,0,.9);
 		z-index: 99;
 		backdrop-filter: saturate(180%) blur(20px);
 	}

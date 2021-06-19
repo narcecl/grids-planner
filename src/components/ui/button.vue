@@ -30,13 +30,26 @@
 		display: inline-block;
 		font-size: 14px;
 		text-decoration: none;
+		padding:12px 32px;
+		border-radius: 26px;
+		transition: all .3s ease;
 
 		&.primary{
-			border-color: rgba(195, 224, 251, .5);
-			background: rgba(195, 224, 251, .2);
-			padding: 12px 32px;
-			border-radius: 26px;
+			background: #1769aa;
 			color: #fff;
+
+			&:hover{
+				background:#114b7a;
+			}
+		}
+
+		&.secondary{
+			background: #555;
+			color: #fff;
+
+			&:hover{
+				background:#333;
+			}
 		}
 
 		.fa{

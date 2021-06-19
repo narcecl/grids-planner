@@ -55,11 +55,13 @@ export default{
 		},
 		showLogin: function(state, redirectUri){
 			// Levantamos la ventana de login de facebook
-			let x = (window.innerWidth / 2) - 250,
-				y = (window.innerHeight / 2);
+			let winw = 500,
+				winh = 600,
+				x = (window.innerWidth / 2) - (winw/2),
+				y = (window.innerHeight / 2) - (winh/4);
 
 			let url_string = `?client_id=476586483443014&redirect_uri=${redirectUri}&scope=user_profile,user_media&response_type=code`;
-			let prop_string = `width=500,height=600,resizable=no,location=no,toolbar=no,titlebar=no,status=no,scrollbars=no,left=${x}',top=${y}`;
+			let prop_string = `width=${winw},height=${winh},resizable=no,location=no,toolbar=no,titlebar=no,status=no,scrollbars=no,left=${x}',top=${y}`;
 			state.instagram_login = window.open('https://www.instagram.com/oauth/authorize' + url_string, '', prop_string);
 		},
 		loginStatus: function(state, value){

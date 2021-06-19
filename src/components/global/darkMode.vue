@@ -1,5 +1,5 @@
 <template>
-	<a href="#" title="Alternar modo oscuro" @click.prevent="toggleDark" :class="{ dark: this.$store.getters.isDark }">
+	<a href="#" class="hover-opacity" title="Alternar modo oscuro" @click.prevent="toggleDark" :class="{ dark: this.$store.getters.isDark }">
 		<span class="fa" :class="classController"></span>
 	</a>
 </template>
@@ -8,7 +8,7 @@
 	export default{
 		computed: {
 			classController: function(){
-				return ( this.$store.getters.getTheme === 'dark' ) ? 'fa-sun-o' : 'fa-moon-o';
+				return ( this.$store.getters.getTheme === 'dark' ) ? 'fa-sun' : 'fa-moon';
 			}
 		},
 		methods: {
@@ -21,9 +21,6 @@
 
 <style lang="scss" scoped>
 	a{
-		// position: fixed;
-		// right: 30px;
-		// top: 24%;
 		border-radius: 100%;
 		font-size: 30px;
 		transition: all .3s ease;

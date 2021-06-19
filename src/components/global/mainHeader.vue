@@ -6,7 +6,7 @@
 					<div class="logo d-flex align-items-center">
 						<span class="fa fa-th-large isotype"></span>
 						<h1>Grids <span>planner</span></h1>
-						<!-- <span>Instagram Feed Planner</span> -->
+						<span>Instagram Feed Planner</span>
 					</div>
 				</div>
 				<div class="col-4">
@@ -47,15 +47,13 @@
 			.isotype{
 				font-size: 48px;
 				margin-right: 16px;
-				margin-top: 2px;
-				margin-bottom: -6px;
 			}
 
 			h1{
 				color:#fff;
 				font-size: 26px;
 				font-weight:700;
-				// border-right:solid 1px rgba(255,255,255,.5);
+				border-right:solid 1px rgba(255,255,255,.5);
 				padding-right:20px;
 				margin-right:20px;
 

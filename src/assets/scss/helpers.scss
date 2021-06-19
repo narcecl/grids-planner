@@ -1,5 +1,12 @@
 [v-cloak] > * {display:none;}
 
+.hover{
+	&-opacity{
+		@include transition;
+		&:hover{opacity:.6;}
+	}
+}
+
 .btn-holder{
 	a{
 		display:inline-block;
@@ -27,16 +34,6 @@ figure{
 }
 
 .full-radius{border-radius:100%;}
-
-.circle-icon{
-	width: 72px;
-	height: 72px;
-	border-radius: 100%;
-	line-height: 72px;
-	font-size: 44px;
-	color: #fff;
-	text-align:center;
-}
 
 .v-align{
 	&-baseline{vertical-align:baseline;}
