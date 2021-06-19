@@ -42,6 +42,7 @@
 				})
 				.then(response => {
 					this.setLocalStorage(response.data);
+					this.$store.commit('loginStatus', true);
 					this.ready = true;
 
 					setTimeout(() => {

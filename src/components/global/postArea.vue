@@ -1,16 +1,21 @@
 <template>
-	<section class="pt-4" :class="{ 'pb-48': postsList.length || !postsReady && (typeof instagramStorage === 'object')}">
-		<div class="d-flex align-items-center justify-content-center" v-if="!postsReady && (typeof instagramStorage === 'object')">
-			<div>
-				<loading/>
-				<p class="mt-16">Cargando posts de Instagram</p>
-			</div>
-		</div>
-
+	<section :class="{ 'pb-48': postsList.length || hasStorage}">
 		<div :class="{container: !isMobileViewport}">
+			<div class="d-flex align-items-center justify-content-center" v-if="hasStorage">
+				<div>
+					<loading/>
+					<p class="mt-16">Cargando posts de Instagram</p>
+				</div>
+			</div>
+			<div v-if="!postsReady && instagramExpires">
+				<support type="info" :dismiss="true">
+					<p>La sesión de Instagram caducó, por fa vor vuelve a iniciar sesión.</p>
+				</support>
+			</div>
+
 			<div class="post-area">
 				<div class="cont" ref="cont">
-					<draggable class="row total" :class="{extramini: isMobileViewport}" v-model="postsList" :move="checkMove" @start="drag=true" @end="drag=false">
+					<draggable :class="[ postsList.length ? 'row total' : '', {extramini: isMobileViewport}]" v-model="postsList" :move="checkMove" @start="drag=true" @end="drag=false">
 						<div class="col-4" v-for="(post, index) in postsList" :key="index" @dragstart="checkDrag($event)" :draggable="post.drag" :class="post.drag ? 'draggable' : 'no-draggable'">
 							<div class="grid-item" :style="[sizeController, {backgroundImage: 'url(' + post.image + ')' }]" :class="{drag: post.drag}">
 								<div class="grid-cont">
@@ -23,24 +28,24 @@
 						</div>
 					</draggable>
 				</div>
-
-				<transition name="fade">
-					<div class="prompt" v-if="prompt">
-						<div class="h-100 d-flex align-items-center justify-content-center">
-							<div class="cont text-center">
-								<h6 class="heading-4 text-white">¿Estás seguro que quieres eliminar esta imagen?</h6>
-								<p class="f-large text-white">Esta acción no se puede deshacer y si la necesitas, tendrás que subirla de nuevo.</p>
-
-								<div class="btn-holder mt-32">
-									<btn @click="deletePost" text="Aceptar"/>
-									<btn @click="cancelDelete" text="Cancelar"/>
-								</div>
-							</div>
-						</div>
-					</div>
-				</transition>
 			</div>
 		</div>
+
+		<transition name="fade">
+			<div class="prompt" v-if="prompt">
+				<div class="h-100 d-flex align-items-center justify-content-center">
+					<div class="cont text-center">
+						<h6 class="heading-4 text-white">¿Estás seguro que quieres eliminar esta imagen?</h6>
+						<p class="f-large text-white">Esta acción no se puede deshacer y si la necesitas, tendrás que subirla de nuevo.</p>
+
+						<div class="btn-holder mt-32">
+							<btn @click="deletePost" text="Aceptar"/>
+							<btn @click="cancelDelete" text="Cancelar"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</transition>
 	</section>
 </template>
 
@@ -55,7 +60,8 @@
 				item_width: null,
 				containerWidth: 0,
 				postsReady: false,
-				instagramStorage: null
+				instagramExpires: false,
+				instagramStorage: null,
 			}
 		},
 		watch: {
@@ -64,6 +70,9 @@
 			}
 		},
 		computed: {
+			hasStorage: function(){
+				return (!this.postsReady && (this.instagramStorage && typeof this.instagramStorage === 'object'));
+			},
 			postsList: {
 				get: function(){
 					// Obtenemos la lista del store
@@ -138,6 +147,9 @@
 				})
 				.catch(error => {
 					console.log(error);
+					this.instagramExpires = false;
+					this.$store.commit('loginStatus', false);
+					localStorage.removeItem('instagram');
 				});
 			}
 		},

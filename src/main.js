@@ -16,8 +16,10 @@ import dragArea from '@/components/global/dragArea.vue';
 import postArea from '@/components/global/postArea.vue';
 import mainFooter from '@/components/global/mainFooter.vue';
 import darkMode from '@/components/global/darkMode.vue';
+
 import loading from '@/components/ui/loading.vue';
 import btn from '@/components/ui/button.vue';
+import support from '@/components/ui/support.vue';
 
 const $config = {
 	install( Vue ){
@@ -37,6 +39,7 @@ const $config = {
 		Vue.component('dark-mode', darkMode);
 		Vue.component('loading', loading);
 		Vue.component('btn', btn);
+		Vue.component('support', support);
 	}
 }
 

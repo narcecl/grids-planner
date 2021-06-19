@@ -4,7 +4,7 @@
 
 		<dragArea/>
 		<postArea/>
-
+		
 		<mainFooter/>
 	</div>
 </template>

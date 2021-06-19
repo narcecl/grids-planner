@@ -11,7 +11,7 @@
 				</div>
 				<div class="col-4">
 					<div class="d-flex align-items-center justify-content-end">
-						<a href="#" class="btn-ingresar" @click.prevent="openLogin">
+						<a href="#" class="btn-ingresar" @click.prevent="openLogin" v-if="!$store.getters.loginStatus">
 							<span class="fa fa-instagram"></span>
 							<span class="d-none d-sm-inline-block ml-8">Ingresar con Instagram</span>
 						</a>

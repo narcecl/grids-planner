@@ -5,7 +5,15 @@
 	}
 }
 
+$max: 100;
+$step: 2;
+
 .f{
+	@for $i from 2 through ceil($max/$step){
+		$value: $i * $step;
+		&-#{$value}{font-size:#{$value}px;}
+	}
+
 	&-large{
 		font-size: 16px;
 	}
