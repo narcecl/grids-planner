@@ -44,7 +44,7 @@
 
 		.logo{
 			.isotype{
-				font-size: 48px;
+				font-size: 40px;
 				margin-right: 16px;
 				color: rgba(255,255,255,.8);
 			}
@@ -55,17 +55,18 @@
 				font-weight:700;
 
 				span{
-					color: #fff;;
+					color: rgba(255,255,255,.8);
 					display: block;
-					margin-top:2px;
-					font-size:16px;
+					margin-top:4px;
+					font-size:10px;
 					font-weight: 200;;
-					letter-spacing: 1.5px;
+					letter-spacing: 3px;
+					text-transform: uppercase;
 				}
 			}
 
 			.text{
-				padding:12px 0 12px 16px;
+				padding:10px 0 10px 16px;
 				margin-left:20px;
 				border-left:solid 1px rgba(255,255,255,.5);
 				font-size: 13px;

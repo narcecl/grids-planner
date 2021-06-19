@@ -9,7 +9,7 @@
 			</div>
 			<div v-if="!postsReady && instagramExpires">
 				<support type="info" :dismiss="true" class="mb-48">
-					<p>La sesión de Instagram caducó, por fa vor vuelve a iniciar sesión.</p>
+					<p>La sesión de Instagram caducó, por favor vuelve a iniciar sesión.</p>
 				</support>
 			</div>
 
