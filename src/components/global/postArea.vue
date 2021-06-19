@@ -1,14 +1,14 @@
 <template>
-	<section :class="{ 'pb-48': postsList.length || hasStorage}">
+	<section :class="{ 'pb-48': postsList.length}">
 		<div :class="{container: !isMobileViewport}">
-			<div class="d-flex align-items-center justify-content-center" v-if="hasStorage">
+			<div class="d-flex align-items-center justify-content-center" v-if="gettingPosts && !postsReady">
 				<div>
 					<loading/>
-					<p class="mt-16">Cargando posts de Instagram</p>
+					<p class="mt-16">Cargando tus posts desde Instagram</p>
 				</div>
 			</div>
 			<div v-if="!postsReady && instagramExpires">
-				<support type="info" :dismiss="true">
+				<support type="info" :dismiss="true" class="mb-48">
 					<p>La sesión de Instagram caducó, por fa vor vuelve a iniciar sesión.</p>
 				</support>
 			</div>
@@ -63,13 +63,15 @@
 				item_width: null,
 				containerWidth: 0,
 				postsReady: false,
+				gettingPosts: false,
 				instagramExpires: false,
 				instagramStorage: null,
 			}
 		},
 		watch: {
 			instagramStorage: function(value){
-				if( !this.$store.getters.loginStatus ){
+				// if( !this.$store.getters.loginStatus ){
+				if( this.hasStorage ){
 					// Si no esta el status activo, buscamos la info
 					this.getUserMedia();
 				}
@@ -77,7 +79,8 @@
 		},
 		computed: {
 			hasStorage: function(){
-				return (!this.postsReady && (this.instagramStorage && typeof this.instagramStorage === 'object'));
+				let hasStorage = (this.instagramStorage && 'access_token' in this.instagramStorage && 'user_id' in this.instagramStorage);
+				return (!this.postsReady && hasStorage);
 			},
 			postsList: {
 				get: function(){
@@ -124,7 +127,15 @@
 				this.prompt = false;
 				this.selected_index = null;
 			},
+			setInstagramStorage: function(){
+				let storage = localStorage.getItem('instagram').split(',');
+				this.instagramStorage = {
+					access_token: storage[0],
+					user_id: storage[1]
+				};
+			},
 			getUserMedia: function(){
+				this.gettingPosts = true;
 				this.$axios({
 					url: 'https://graph.instagram.com/v11.0/'+ this.instagramStorage.user_id +'/media',
 					params: {
@@ -139,8 +150,10 @@
 					this.$store.dispatch('clearPosts');
 
 					if( posts.length ){
+						// Si obtenemos resultados, los recorremos y los agreamos
 						posts.reverse();
 
+						// Recorremos los posts
 						posts.forEach((item, index) => {
 							this.$store.commit('addPost', {image: item.media_url, drag: false});
 
@@ -148,13 +161,15 @@
 								// Llegamos al final
 								this.$store.commit('loginStatus', true);
 								this.postsReady = true;
+								this.gettingPosts = false;
 							}
 						});
 					}
 				})
 				.catch(error => {
 					console.log(error);
-					this.instagramExpires = false;
+					this.gettingPosts = false;
+					this.instagramExpires = true;
 					this.$store.commit('loginStatus', false);
 					localStorage.removeItem('instagram');
 				});
@@ -166,11 +181,7 @@
 
 			// Hacemos la verificación del item
 			if( localStorage.getItem('instagram') ){
-				let storage = localStorage.getItem('instagram').split(',');
-				this.instagramStorage = {
-					access_token: storage[0],
-					user_id: storage[1]
-				};
+				this.setInstagramStorage();
 			}
 
 			// Resize event para determinar el alto/ancho de las cajas
@@ -183,12 +194,7 @@
 			// Agregamos el evento para saber si se agrega la storage en otra ventana
 			window.addEventListener('storage', () => {
 				if( localStorage.getItem('instagram') ){
-					// Si existe la actualizamos
-					let storage = localStorage.getItem('instagram').split(',');
-					this.instagramStorage = {
-						access_token: storage[0],
-						user_id: storage[1]
-					};
+					this.setInstagramStorage();
 				}
 			});
 		}

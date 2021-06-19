@@ -6,7 +6,7 @@
 					<span :class="selectedIcon" class="support-icon f-28 mr-16"></span>
 					<slot></slot>
 				</div>
-				<a href="#" class="close" v-if="dismiss" @click.prevent="hide">
+				<a href="#" class="close hover-opacity" v-if="dismiss" @click.prevent="hide">
 					<span class="f-20 fa fa-close"></span>
 				</a>
 			</div>
@@ -50,25 +50,26 @@
 </script>
 
 <style lang="scss">
-	.dark{
-		.support{
-			&.info{
-				background:rgba(195, 224, 251, .5);
-			}
-		}
-	}
+	// .dark{
+	// 	.support{
+	// 		&.info{
+	// 			background:rgba(195, 224, 251, .5);
+	// 		}
+	// 	}
+	// }
 
 	.support{
 		padding:16px;
 		border-radius:8px;
 		border:1px solid transparent;
 
+		.close span{color:#444;}
+
 		&.info{
 			background:#cce4fd;
 			border-color:#c1ddfa;
 			p{color:#444}
 			.support-icon{color:#265c96}
-			.close span{color:#265c96}
 		}
 
 		&.warning{
@@ -76,7 +77,6 @@
 			border-color:#f6e4b8;
 			p{color:#444}
 			.support-icon{color:#9e823d}
-			.close span{color:#9e823d}
 		}
 
 		&.error{
@@ -84,7 +84,6 @@
 			border-color:#f0cdd1;
 			p{color:#444}
 			.support-icon{color:#853942}
-			.close span{color:#853942}
 		}
 	}
 </style>
