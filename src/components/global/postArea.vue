@@ -66,7 +66,10 @@
 		},
 		watch: {
 			instagramStorage: function(value){
-				this.getUserMedia();
+				if( !this.$store.getters.loginStatus ){
+					// Si no esta el status activo, buscamos la info
+					this.getUserMedia();
+				}
 			}
 		},
 		computed: {
@@ -140,6 +143,7 @@
 
 							if( index === (posts.length-1) ){
 								// Llegamos al final
+								this.$store.commit('loginStatus', true);
 								this.postsReady = true;
 							}
 						});
