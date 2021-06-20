@@ -3,9 +3,11 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-6 col-sm-8">
-					<div class="logo d-flex align-items-center">
-						<span class="fa fa-th-large isotype"></span>
-						<h1>Grids <span>planner</span></h1>
+					<div class="logo-group d-flex align-items-center">
+						<router-link to="/" class="logo d-flex align-items-center">
+							<span class="fa fa-th-large isotype"></span>
+							<h1>Grids <span>planner</span></h1>
+						</router-link>
 						<span class="text d-none d-sm-block">Instagram Feed Planner</span>
 					</div>
 				</div>
@@ -42,29 +44,39 @@
 		padding:18px 0;
 		background: #333;
 
-		.logo{
-			.isotype{
-				font-size: 40px;
-				margin-right: 16px;
-				color: rgba(255,255,255,.8);
-			}
+		.logo-group{
+			.logo{
+				text-decoration:none;
 
-			h1{
-				color:#fff;
-				font-size: 26px;
-				font-weight:700;
+				&:hover{
+					.isotype, h1{opacity:.6;}
+				}
 
-				span{
+				.isotype{
+					font-size: 40px;
+					margin-right: 16px;
 					color: rgba(255,255,255,.8);
-					display: block;
-					margin-top:4px;
-					font-size:10px;
-					font-weight: 200;;
-					letter-spacing: 3px;
-					text-transform: uppercase;
+					transition: all .3s ease;
+				}
+
+				h1{
+					color:#fff;
+					font-size: 26px;
+					font-weight:700;
+					transition: all .3s ease;
+
+					span{
+						color: rgba(255,255,255,.8);
+						display: block;
+						margin-top:2px;
+						font-size:10px;
+						font-weight: 200;;
+						letter-spacing: 3px;
+						text-transform: uppercase;
+					}
 				}
 			}
-
+			
 			.text{
 				padding:10px 0 10px 16px;
 				margin-left:20px;

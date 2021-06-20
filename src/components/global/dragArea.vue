@@ -6,7 +6,7 @@
 					<div class="drag-cont">
 						<span class="fa fa-images"></span>
 						<h2 class="mb-4 fw-semibold">Empieza a crear tu feed</h2>
-						<p class="w-100 w-sm-35 center">Haz clic para buscar imágenes entre tus archivos o arrastralas aquí.</p>
+						<p>Haz clic para buscar imágenes entre tus archivos o arrastralas aquí.</p>
 					</div>
 					<input type="file" ref="file" id="images" multiple accept="image/x-png,image/gif,image/jpeg" @change="handleFile">
 				</label>
