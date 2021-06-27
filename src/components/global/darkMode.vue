@@ -32,12 +32,13 @@
 
 	a{
 		border-radius: 100%;
-		font-size: 30px;
+		font-size: 32px;
 		transition: all .3s ease;
 		background:#333;
 		color:#fff;
-		width: 30px;
-		height: 30px;
+		width: 32px;
+		height: 32px;
+		display: block;
 		text-align: center;
 	}
 }

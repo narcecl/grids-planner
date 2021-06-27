@@ -20,7 +20,7 @@
 						<div class="loggedin" v-if="$store.getters.loginStatus && $store.getters.instagramInfo">
 							<div class="d-flex align-items-center">
 								<span class="fa fa-instagram"></span>
-								<p class="ml-12">
+								<p class="ml-16">
 									<span class="f-12 d-block">Logueado como:</span>
 									<mark>@{{ $store.getters.instagramInfo.username }}</mark>
 								</p>
@@ -106,7 +106,6 @@
 				display:inline-block;
 				vertical-align: text-bottom;
 				font-size: 32px;
-				margin-right: 8px;
 			}
 		}
 
@@ -120,7 +119,6 @@
 			border-radius: 30px;
 			font-size:14px;
 			transition: all .3s ease;
-			margin-right:32px;
 			text-decoration: none;
 
 			&:hover{
