@@ -2,6 +2,7 @@ export default{
 	state: {
 		theme: 'light',
 		instagram_login: null,
+		instagram_info: null,
 		login_status: false,
 		posts: []
 	},
@@ -17,12 +18,19 @@ export default{
 		loginStatus: function(state){
 			// Devuelve el estado del login de instagram
 			return state.login_status;
+		},
+		instagramInfo: function(state){
+			return state.instagram_info;
 		}
 	},
 	actions: {
 		clearPosts: function(context){
 			context.commit('clearPosts');
-		}
+		},
+		toggleOverflow: function(context, bool) {
+			var value = bool ? 'hidden' : 'auto';
+			document.body.style.overflow = value;
+		},
 	},
 	mutations: {
 		clearPosts: function(state){
@@ -31,6 +39,10 @@ export default{
 		toggleTheme: function(state, theme = null){
 			if( theme ) state.theme = theme;
 			else state.theme = (state.theme === 'dark') ? 'light' : 'dark';
+		},
+		addPostsInsta: function(state, image){
+			// Agregamos los posts que obtuvimos desde la sesion
+			state.posts.push(image);
 		},
 		addPost: function(state, value){
 			// Añade un post desde el dragArea al state
@@ -48,6 +60,9 @@ export default{
 		deletePost: function(state, value){
 			// Eliminamos un posts del array
 			state.posts.splice(value, 1);
+		},
+		setInstagramInfo: function(state, value){
+			state.instagram_info = value;
 		},
 		updatePostsList: function(state, value){
 			// Actualizamos la lista de posts desde el postsArea (vuedraggable)

@@ -41,11 +41,12 @@
 					})
 				})
 				.then(response => {
+					console.log('response =>', response);
 					this.setLocalStorage(response.data);
 					this.ready = true;
 
 					setTimeout(() => {
-						window.close();
+						//window.close();
 					}, 500);
 				})
 				.catch(error => {

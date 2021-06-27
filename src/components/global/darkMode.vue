@@ -1,7 +1,9 @@
 <template>
-	<a href="#" class="hover-opacity" :title="titleText" @click.prevent="toggleDark" :class="{ dark: this.$store.getters.isDark }">
-		<span class="fa" :class="classController"></span>
-	</a>
+	<div class="dark-mode-btn">
+		<a href="#" class="hover-opacity" :title="titleText" @click.prevent="toggleDark" :class="{ dark: this.$store.getters.isDark }">
+			<span class="fa" :class="classController"></span>
+		</a>
+	</div>
 </template>
 
 <script>
@@ -23,6 +25,11 @@
 </script>
 
 <style lang="scss" scoped>
+.dark-mode-btn{
+	padding-left:32px;
+	margin-left:32px;
+	border-left:solid 1px rgba(255,255,255,.5);
+
 	a{
 		border-radius: 100%;
 		font-size: 30px;
@@ -33,4 +40,5 @@
 		height: 30px;
 		text-align: center;
 	}
+}
 </style>

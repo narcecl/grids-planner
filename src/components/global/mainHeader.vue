@@ -17,6 +17,15 @@
 							<span class="fa fa-instagram"></span>
 							<span class="d-none d-sm-inline-block ml-8">Ingresar con Instagram</span>
 						</a>
+						<div class="loggedin" v-if="$store.getters.loginStatus && $store.getters.instagramInfo">
+							<div class="d-flex align-items-center">
+								<span class="fa fa-instagram"></span>
+								<p class="ml-12">
+									<span class="f-12 d-block">Logueado como:</span>
+									<mark>@{{ $store.getters.instagramInfo.username }}</mark>
+								</p>
+							</div>
+						</div>
 						<dark-mode/>
 					</div>
 				</div>
@@ -83,6 +92,21 @@
 				border-left:solid 1px rgba(255,255,255,.5);
 				font-size: 13px;
 				color: rgba(255,255,255,.8);
+			}
+		}
+
+		.loggedin{
+			p{
+				color:rgba(255,255,255,.8);
+				line-height: 1.1em;
+				mark{color:white;font-size:16px;}
+			}
+			.fa{
+				color: white;
+				display:inline-block;
+				vertical-align: text-bottom;
+				font-size: 32px;
+				margin-right: 8px;
 			}
 		}
 

@@ -4,6 +4,7 @@ import router from './router';
 import axios from 'axios';
 import draggable from 'vuedraggable';
 import $store from '@/store/index.js';
+import methods from '@/methods.js';
 import "@/assets/scss/main.scss";
 
 // Mixins
@@ -17,13 +18,16 @@ import postArea from '@/components/global/postArea.vue';
 import mainFooter from '@/components/global/mainFooter.vue';
 import darkMode from '@/components/global/darkMode.vue';
 
+// UI Components
 import loading from '@/components/ui/loading.vue';
 import btn from '@/components/ui/button.vue';
 import support from '@/components/ui/support.vue';
+import modal from '@/components/ui/modal.vue';
 
 const $config = {
 	install( Vue ){
 		// Prototypes
+		Vue.prototype.$methods = methods;
 		Vue.prototype.$axios = axios;
 
 		// Mixins
@@ -40,6 +44,7 @@ const $config = {
 		Vue.component('loading', loading);
 		Vue.component('btn', btn);
 		Vue.component('support', support);
+		Vue.component('modal', modal);
 	}
 }
 

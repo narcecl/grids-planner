@@ -19,7 +19,10 @@
 						<div class="col-4" v-for="(post, index) in postsList" :key="index" @dragstart="checkDrag($event)" :draggable="post.drag" :class="post.drag ? 'draggable' : 'no-draggable'">
 							<div class="grid-item" :style="[sizeController, {backgroundImage: 'url(' + post.image + ')' }]" :class="{drag: post.drag}">
 								<div class="grid-cont">
-									<a href="#" class="delete-item" @click.prevent="confirmDelete(index)" v-if="post.drag">
+									<a href="#" class="control-item view-post" title="Ver imagen" @click.prevent="showModal(post.image)" v-if="post.drag">
+										<span class="fa fa-eye"></span>
+									</a>
+									<a href="#" class="control-item delete-post" title="Eliminar imagen" @click.prevent="confirmDelete(index)" v-if="post.drag">
 										<span class="fa fa-trash"></span>
 									</a>
 									<span v-else class="from-instagram fa fa-instagram"></span>
@@ -30,6 +33,14 @@
 				</div>
 			</div>
 		</div>
+
+		<modal v-model="modal" :multimedia="true">
+			<template slot="main">
+				<figure class="full">
+					<img :src="modalImg" alt="Imagen subida">
+				</figure>
+			</template>
+		</modal>
 
 		<transition name="fade">
 			<div class="prompt" v-if="prompt">
@@ -66,6 +77,8 @@
 				gettingPosts: false,
 				instagramExpires: false,
 				instagramStorage: null,
+				modal: false,
+				modalImg: null
 			}
 		},
 		watch: {
@@ -73,6 +86,7 @@
 				// if( !this.$store.getters.loginStatus ){
 				if( this.hasStorage ){
 					// Si no esta el status activo, buscamos la info
+					this.getUserInfo();
 					this.getUserMedia();
 				}
 			}
@@ -118,6 +132,10 @@
 				this.selected_index = index;
 				this.prompt = true;
 			},
+			showModal: function(image){
+				this.modalImg = image;
+				this.modal = true;
+			},
 			deletePost: function(){
 				this.$store.commit('deletePost', this.selected_index);
 				this.prompt = false;
@@ -134,6 +152,22 @@
 					user_id: storage[1]
 				};
 			},
+			getUserInfo: function(){
+				this.$axios({
+					url: 'https://graph.instagram.com/v11.0/'+ this.instagramStorage.user_id,
+					params: {
+						access_token: this.instagramStorage.access_token,
+						fields: 'username'
+					}
+				})
+				.then(response => {
+					let data = response.data;
+					this.$store.commit('setInstagramInfo', data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+			},
 			getUserMedia: function(){
 				this.gettingPosts = true;
 				this.$axios({
@@ -147,15 +181,18 @@
 					let data = response.data;
 					let posts = data.data;
 
-					this.$store.dispatch('clearPosts');
+					//this.$store.dispatch('clearPosts');
 
 					if( posts.length ){
 						// Si obtenemos resultados, los recorremos y los agreamos
 						posts.reverse();
 
-						// Recorremos los posts
+						// Recorremos y agregamos los posts al store
 						posts.forEach((item, index) => {
-							this.$store.commit('addPost', {image: item.media_url, drag: false});
+							this.$store.commit('addPostsInsta', {
+								image: item.media_url,
+								drag: false
+							});
 
 							if( index === (posts.length-1) ){
 								// Llegamos al final
@@ -227,7 +264,7 @@
 			overflow: hidden;
 
 			&:hover{
-				.delete-item{
+				.control-item{
 					opacity:1;
 				}
 			}
@@ -240,13 +277,11 @@
 				color: #fff;
 			}
 
-			.delete-item{
+			.control-item{
 				position: absolute;
-				right: 10px;
-				top: 10px;
 				background: rgba(0,0,0,.5);
 				z-index: 1;
-				padding: 8px;
+				padding: 8px 0;
 				color: #fff;
 				border-radius: 100%;
 				width: 32px;
@@ -257,6 +292,15 @@
 
 				&:hover{
 					background:rgba(0,0,0,.9);
+				}
+
+				&.view-post{
+					left: 10px;
+					top: 10px;
+				}
+				&.delete-post{
+					right: 10px;
+					top: 10px;
 				}
 			}
 
