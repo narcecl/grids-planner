@@ -6,7 +6,7 @@
 					<p><span class="fa fa-heart mr-8 animate__animated animate__heartBeat animate__infinite"></span>Desarrollado con amor por <a href="https://www.narce.cl" target="_blank">Nicolás Arce</a>.</p>
 				</div>
 				<div class="col-12 col-sm-6 text-left text-md-right">
-					<p><span class="fas fa-mug-hot mr-8"></span>¿Te gustó la app? <a href="https://ko-fi.com/narcecl" target="_blank">Regalame un café</a>.</p>
+					<p><span class="fas fa-mug-hot mr-8"></span>¿Te sirvió la app? <a href="https://ko-fi.com/narcecl" target="_blank">Regalame un café</a>.</p>
 				</div>
 				<!-- <div class="col-12 col-sm-4 text-center text-sm-right">
 					<p><span class="fa fa-bug mr-8"></span>¿Tuviste algún problema? <a href="#">Cuentamelo</a>.</p>

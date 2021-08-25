@@ -4,7 +4,8 @@ export default{
 		instagram_login: null,
 		instagram_info: null,
 		login_status: false,
-		posts: []
+		posts: [],
+		insta_posts: []
 	},
 	getters: {
 		getTheme: function(state){
@@ -14,6 +15,10 @@ export default{
 		getPosts: function(state){
 			// Devuelve array de posts
 			return state.posts;
+		},
+		getInstaPosts: function(state){
+			// Devuelve array de posts de instagram
+			return state.insta_posts;
 		},
 		loginStatus: function(state){
 			// Devuelve el estado del login de instagram
@@ -40,9 +45,9 @@ export default{
 			if( theme ) state.theme = theme;
 			else state.theme = (state.theme === 'dark') ? 'light' : 'dark';
 		},
-		addPostsInsta: function(state, image){
+		addInstaPost: function(state, image){
 			// Agregamos los posts que obtuvimos desde la sesion
-			state.posts.push(image);
+			state.insta_posts.push(image);
 		},
 		addPost: function(state, value){
 			// Añade un post desde el dragArea al state

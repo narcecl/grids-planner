@@ -4,7 +4,7 @@
 			<div class="d-flex align-items-center justify-content-center mb-48" v-if="gettingPosts && !postsReady">
 				<div>
 					<loading/>
-					<p class="mt-16">Cargando tus posts desde Instagram</p>
+					<p class="mt-16">Cargando tus posts desde Instagram...</p>
 				</div>
 			</div>
 			<div v-if="!postsReady && instagramExpires">
@@ -13,7 +13,7 @@
 				</support>
 			</div>
 
-			<div class="post-area">
+			<div class="post-area" :class="{ 'w-posts': postsList.length }">
 				<div class="cont" ref="cont">
 					<draggable :class="[ postsList.length ? 'row total' : '', {extramini: isMobileViewport}]" v-model="postsList" :move="checkMove" @start="drag=true" @end="drag=false">
 						<div class="col-4" v-for="(post, index) in postsList" :key="index" @dragstart="checkDrag($event)" :draggable="post.drag" :class="post.drag ? 'draggable' : 'no-draggable'">
@@ -99,7 +99,7 @@
 			postsList: {
 				get: function(){
 					// Obtenemos la lista del store
-					return this.$store.getters.getPosts;
+					return this.$store.getters.getPosts.concat(this.$store.getters.getInstaPosts);
 				},
 				set: function(posts){
 					// Actualizamos cuando movemos
@@ -165,7 +165,7 @@
 					this.$store.commit('setInstagramInfo', data);
 				})
 				.catch(error => {
-					console.log(error);
+					console.error(error);
 				});
 			},
 			getUserMedia: function(){
@@ -185,11 +185,11 @@
 
 					if( posts.length ){
 						// Si obtenemos resultados, los recorremos y los agreamos
-						posts.reverse();
+						//posts.reverse();
 
 						// Recorremos y agregamos los posts al store
 						posts.forEach((item, index) => {
-							this.$store.commit('addPostsInsta', {
+							this.$store.commit('addInstaPost', {
 								image: item.media_url,
 								drag: false
 							});
@@ -239,19 +239,22 @@
 </script>
 
 <style lang="scss" scoped>
-	.prompt{
-		width: 100%;height: 100%;
-		position: fixed;
-		left: 0;
-		top: 0;
-		background: rgba(0,0,0,.9);
-		z-index: 99;
-		backdrop-filter: saturate(180%) blur(20px);
+.dark{
+	.post-area.w-posts{
+		border-color:#333;
+	}
+}
+.post-area{
+	&.w-posts{
+		padding-top:48px;
+		transition:border-color .3s ease;
+		border-top:1px solid #ccc;
 	}
 
 	.grid-item{
 		background-size: cover;
 		background-position: center;
+		border-radius:8px;
 
 		&.drag{
 			cursor: move;
@@ -315,4 +318,5 @@
 			}
 		}
 	}
+}
 </style>

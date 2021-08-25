@@ -13,7 +13,12 @@ $step: 2;
 		$value: $i * $step;
 		&-#{$value}{font-size:#{$value}px;}
 	}
-
+	&-xsmall{
+		font-size: 12px;
+	}
+	&-small{
+		font-size: 14px;
+	}
 	&-large{
 		font-size: 16px;
 	}

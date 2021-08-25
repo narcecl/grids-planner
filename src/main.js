@@ -32,7 +32,7 @@ const $config = {
 
 		// Mixins
 		Vue.mixin(mobile);
-		Vue.mixin(path)
+		Vue.mixin(path);
 
 		// Component
 		Vue.component('main-header', mainHeader);

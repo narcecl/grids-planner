@@ -13,7 +13,7 @@
 				</div>
 				<div class="col-6 col-sm-4">
 					<div class="d-flex align-items-center justify-content-end">
-						<a href="#" class="btn-ingresar" @click.prevent="openLogin" v-if="!$store.getters.loginStatus">
+						<a href="#" class="btn-ingresar" @click.prevent="prompt = true" v-if="!$store.getters.loginStatus">
 							<span class="fa fa-instagram"></span>
 							<span class="d-none d-sm-inline-block ml-8">Ingresar con Instagram</span>
 						</a>
@@ -31,6 +31,31 @@
 				</div>
 			</div>
 		</div>
+
+		<transition name="fade">
+			<div class="prompt" v-if="prompt">
+				<div class="h-100 d-flex align-items-center justify-content-center">
+					<div class="cont text-center">
+						<span class="f-40 text-white fa fa-instagram"></span>
+						<div class="w-85 w-sm-55 center">
+							<h6 class="heading-4 text-white mt-16 mb-8">¿Cómo funciona el inicio de sesión?</h6>
+							<p class="text-white">
+								Se abrirá una nueva ventana para que puedas iniciar sesión en el sitio web de Instagram<br>
+								<mark>Esta aplicación no tendrá acceso a tu información personal en ningún momento.</mark><br><br>
+								Cuando hayas iniciado sesión correctamente, Instagram redireccionará con un token a una de nuestras páginas. Con este token la aplicación puede obtener la lista de tus posts.<br><br>
+								En ningún momento Instagram nos compartirá información personal de tu cuenta.<br>
+								<mark>Esta aplicación no puede subir ni editar posts que ya estén en tu cuenta.</mark>
+							</p>
+						</div>
+
+						<div class="btn-holder mt-32">
+							<btn @click="openLogin" text="Continuar"/>
+							<btn @click="prompt = false" text="Cancelar" type="secondary"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</transition>
 	</div>
 </template>
 
@@ -38,10 +63,12 @@
 	export default{
 		data: function(){
 			return {
+				prompt: false
 			};
 		},
 		methods: {
 			openLogin: function(){
+				this.prompt = false;
 				this.$store.commit('showLogin', this.path.redirect);
 			}
 		}

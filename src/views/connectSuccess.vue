@@ -3,7 +3,10 @@
 		<div class="d-flex h-100 align-items-center justify-content-center">
 			<div>
 				<loading/>
-				<p class="text-center mt-16" v-if="ready">All done</p>
+				<p class=" text-center mt-16" :class="{'text-white': $store.getters.getTheme === 'dark'}">
+					<mark class="f-large">Token recibido.</mark><br>
+					Esta ventana se cerrará automáticamente en unos segundos.
+				</p>
 			</div>
 		</div>
 	</div>
@@ -46,10 +49,10 @@
 
 					setTimeout(() => {
 						window.close();
-					}, 500);
+					}, 2000);
 				})
 				.catch(error => {
-					console.log(error);
+					console.error(error);
 				});
 			},
 			setLocalStorage: function(data){

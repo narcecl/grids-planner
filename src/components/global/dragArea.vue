@@ -5,8 +5,11 @@
 				<label for="images" @drop.prevent="handleDrop" @dragover.prevent @dragenter.prevent>
 					<div class="drag-cont">
 						<span class="fa fa-images"></span>
-						<h2 class="mb-4 fw-semibold">Empieza a crear tu feed</h2>
-						<p>Haz clic para buscar imágenes entre tus archivos o arrastralas aquí.</p>
+						<h2 class="mb-8 fw-semibold">Empieza a crear tu feed</h2>
+						<p>
+							Haz clic para buscar imágenes entre tus archivos o arrastralas aquí.<br>
+							<span class="f-xsmall">Esta aplicación no conservará ninguna de las imágenes que selecciones.</span>
+						</p>
 					</div>
 					<input type="file" ref="file" id="images" multiple accept="image/x-png,image/gif,image/jpeg" @change="handleFile">
 				</label>
@@ -52,7 +55,7 @@
 		.drag-cont{
 			text-align: center;
 			padding:32px;
-			border-radius:16px;
+			border-radius:8px;
 			background:#efefef;
 			position:relative;
 			transition:all .3s ease;
@@ -65,7 +68,7 @@
 			
 			*{transition: all .3s ease;}
 			h2{font-size:18px;color:#333;}
-			span{font-size:38px;display:block;margin-bottom:16px;color:#555;}
+			span.fa{font-size:38px;display:block;margin-bottom:16px;}
 
 			.btn-importar{background: #3897f0;padding: 12px 32px;border-radius: 36px;font-size: 13px;color: #fff;text-transform: uppercase;}
 		}
