@@ -12,9 +12,16 @@ export default{
 			// Devuelve el tema (Claro/Oscuro)
 			return state.theme;
 		},
+		isDarkMode: function(state){
+			return state.theme === 'dark';
+		},
 		getPosts: function(state){
 			// Devuelve array de posts
 			return state.posts;
+		},
+		hasPosts: function(state){
+			// Devuelve boolean si es que hay posts o no
+			return state.posts.length ? state.posts.length : false;
 		},
 		getInstaPosts: function(state){
 			// Devuelve array de posts de instagram

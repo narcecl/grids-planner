@@ -10,10 +10,10 @@
 	export default{
 		computed: {
 			classController: function(){
-				return ( this.$store.getters.getTheme === 'dark' ) ? 'fa-sun' : 'fa-moon';
+				return ( this.$store.getters.isDarkMode ) ? 'fa-sun' : 'fa-moon';
 			},
 			titleText: function(){
-				return 'Activar modo ' + ( this.$store.getters.getTheme === 'dark' ? 'claro' : 'oscuro');
+				return 'Activar modo ' + ( this.$store.getters.isDarkMode ? 'claro' : 'oscuro');
 			}
 		},
 		methods: {

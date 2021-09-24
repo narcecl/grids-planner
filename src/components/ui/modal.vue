@@ -1,29 +1,25 @@
 <template>
 	<transition name="fade">
-		<div class="s-modal h-100" :class="{full: full}" v-if="value" @click="closed">
+		<div class="s-modal h-100" :class="{ full: full }" v-if="value" @click="closed">
 			<div class="s-modal-box h-100">
+				<div class="close-section text-right">
+					<a class="hover-opacity d-inline-block" href="#" @click.prevent="closeModal" aria-label="Ocultar modal">
+						<span class="fa fa-close f-28 text-white" aria-hidden="true"></span>
+					</a>
+				</div>
+
 				<div class="h-100" :class="{container: !full}">
 					<div class="h-100" :class="[!full ? 'd-flex align-items-center' : '']">
-						<div class="modal-content" :class="modalSize">
+						<div class="modal-content p-0 w-100 d-flex justify-content-center align-items-center">
 							<div class="modal-box" ref="modal_box">
 								<div class="modal-box box-shadow box-radius bg-white" v-if="!multimedia">
 									<main :style="[limitHeight]" :class="notPadding ? 'no-padds' : '' ">
-										<div class="d-flex justify-content-end mb-16">
-											<a class="hover-opacity d-block" href="#" @click.prevent="closeModal" aria-label="Ocultar modal">
-												<span class="fa fa-close f-28" aria-hidden="true"></span>
-											</a>
-										</div>
 										<div class="s-modal-content">
 											<slot name="main"></slot>
 										</div>
 									</main>
 								</div>
-								<div v-else>
-									<div class="text-right mb-16">
-										<a class="hover-opacity d-inline-block" href="#" @click.prevent="closeModal" aria-label="Ocultar modal">
-											<span class="fa fa-close f-28 text-white" aria-hidden="true"></span>
-										</a>
-									</div>
+								<div class="modal-custom-multimedia" v-else>
 									<slot name="main"></slot>
 								</div>
 							</div>
@@ -81,7 +77,7 @@ export default {
 				if( item === this.$refs.modal_box ) parentModal = true;
 			});
 
-			if( !event.target.classList.contains('s-modal-box') && parentModal === null ){
+			if( parentModal === null ){
 				// Si no es el s-modal-box ni tampoco es el el contenido, cerramos
 				this.closeModal();
 			}
@@ -126,18 +122,6 @@ export default {
 	backdrop-filter: saturate(180%) blur(20px);
 	z-index: 100;
 
-	&:not(.rutclave){
-		.s-modal-box .modal-content{ min-width: 680px; }
-	}
-
-	&.rutclave{
-		@media screen and ( max-width: $break-md ){
-			.s-modal-box .s-modal-content{
-				padding:16px;
-			}
-		}
-	}
-
 	&.full{
 		.modal-content{
 			height: 100%;
@@ -154,6 +138,12 @@ export default {
 	}
 
 	.s-modal-box{
+		.close-section{
+			position: absolute;
+			right: 16px;
+			top: 16px;
+		}
+
 		.modal-content{
 			width: 100%;
 			margin: 0 auto;

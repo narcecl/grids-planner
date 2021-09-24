@@ -7,6 +7,7 @@
 					<p class="mt-16">Cargando tus posts desde Instagram...</p>
 				</div>
 			</div>
+
 			<div v-if="!postsReady && instagramExpires">
 				<support type="info" :dismiss="true" class="mb-48">
 					<p>La sesión de Instagram caducó, por favor vuelve a iniciar sesión.</p>
@@ -14,8 +15,12 @@
 			</div>
 
 			<div class="post-area" :class="{ 'w-posts': postsList.length }">
+				<support type="success" :dismiss="true" class="mb-32" v-if="hasPost > 1">
+					<p>Todo listo, ahora puedes mover las fotos para ordenarlas a tu gusto. <mark>¡Diviertete!</mark></p>
+				</support>
+
 				<div class="cont" ref="cont">
-					<draggable :class="[ postsList.length ? 'row total' : '', {extramini: isMobileViewport}]" v-model="postsList" :move="checkMove" @start="drag=true" @end="drag=false">
+					<draggable :class="[ postsList.length ? 'row total' : '', {extramini: isMobileViewport}]" v-model="postsList" :move="checkMove" @start="drag = true" @end="drag = false">
 						<div class="col-4" v-for="(post, index) in postsList" :key="index" @dragstart="checkDrag($event)" :draggable="post.drag" :class="post.drag ? 'draggable' : 'no-draggable'">
 							<div class="grid-item" :style="[sizeController, {backgroundImage: 'url(' + post.image + ')' }]" :class="{drag: post.drag}">
 								<div class="grid-cont">
@@ -34,11 +39,13 @@
 			</div>
 		</div>
 
-		<modal v-model="modal" :multimedia="true">
+		<modal v-model="modal" :multimedia="true" size="12">
 			<template slot="main">
-				<figure class="full">
-					<img :src="modalImg" alt="Imagen subida">
-				</figure>
+				<div class="preview-image" :style="limitPreview">
+					<figure :style="limitPreview">
+						<img :src="modalImg" alt="Imagen subida">
+					</figure>
+				</div>
 			</template>
 		</modal>
 
@@ -96,6 +103,9 @@
 				let hasStorage = (this.instagramStorage && 'access_token' in this.instagramStorage && 'user_id' in this.instagramStorage);
 				return (!this.postsReady && hasStorage);
 			},
+			hasPost: function(){
+				return this.$store.getters.hasPosts;
+			},
 			postsList: {
 				get: function(){
 					// Obtenemos la lista del store
@@ -115,6 +125,14 @@
 					};
 				}
 			},
+			limitPreview: function(){
+				let max = this.window_height * 80 / 100;
+
+				return {
+					overflow: 'auto',
+					maxHeight: `${ max }px`
+				};
+			}
 		},
 		methods: {
 			checkMove: function(evt){
@@ -239,6 +257,17 @@
 </script>
 
 <style lang="scss" scoped>
+.preview-image{
+	figure{
+		img{
+			max-width: 100%;
+			display: block;
+			height: auto;
+			max-height: inherit;
+			margin: 0 auto;
+		}
+	}
+}
 .dark{
 	.post-area.w-posts{
 		border-color:#333;

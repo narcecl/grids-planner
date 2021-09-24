@@ -32,6 +32,9 @@
 					case 'info':
 						return 'fa fa-info-circle';
 						break;
+					case 'success':
+						return 'fa fa-check-circle';
+						break;
 					case 'warning':
 						return 'fa fa-exclamation-circle';
 						break;
@@ -65,25 +68,31 @@
 
 		.close span{color:#444;}
 
+		&.success{
+			background: #dcedc8;
+			border-color:#c5e1a5;
+			.support-icon, .close span{color: #64ae64;}
+		}
+
 		&.info{
-			background:#cce4fd;
-			border-color:#c1ddfa;
+			background:#bbdefb;
+			border-color:#8cd3ff;
 			p{color:#444}
-			.support-icon{color:#265c96}
+			.support-icon, .close span{color:#187bcd}
 		}
 
 		&.warning{
 			background:#fef1ce;
 			border-color:#f6e4b8;
 			p{color:#444}
-			.support-icon{color:#9e823d}
+			.support-icon, .close span{color:#9e823d}
 		}
 
 		&.error{
 			background:#f6d7d9;
 			border-color:#f0cdd1;
 			p{color:#444}
-			.support-icon{color:#853942}
+			.support-icon, .close span{color:#853942}
 		}
 	}
 </style>
