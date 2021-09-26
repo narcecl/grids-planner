@@ -1,7 +1,8 @@
 <template>
 	<a class="btn" :class="classController" href="#" @click.prevent="emitEvent">
-		<span class="fa" :class="'fa-' + icon" v-if="icon"></span>
+		<span class="fa mr-8" :class="'fa-' + icon" v-if="icon && position ==='left'"></span>
 		{{ text }}
+		<span class="fa ml-8" :class="'fa-' + icon" v-if="icon && position === 'right'"></span>
 	</a>
 </template>
 
@@ -10,6 +11,7 @@
 		props: {
 			type: { type: String, default: 'primary' },
 			text: { type: String, default: '' },
+			position: { type: String, default: 'left' },
 			icon: { type: [String, Boolean], default: false },
 		},
 		computed: {
@@ -53,9 +55,14 @@
 		}
 
 		.fa{
-			margin-right: 6px;
 			vertical-align: middle;
 			font-size: 18px;
+
+			&.fa-chevron-right, &.fa-chevron-left{
+				font-size: 14px;
+				line-height: 0;
+				vertical-align: initial;
+			}
 		}
 	}
 </style>

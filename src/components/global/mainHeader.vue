@@ -4,7 +4,7 @@
 			<div class="row align-items-center">
 				<div class="col-6 col-sm-8">
 					<div class="logo-group d-flex align-items-center">
-						<router-link to="/" class="logo d-flex align-items-center">
+						<router-link :to="{name: 'home'}" class="logo d-flex align-items-center">
 							<span class="fa fa-th-large isotype"></span>
 							<h1>Grids <span>planner</span></h1>
 						</router-link>
@@ -36,15 +36,19 @@
 			<div class="prompt" v-if="prompt">
 				<div class="h-100 d-flex align-items-center justify-content-center">
 					<div class="cont text-center">
-						<span class="f-40 text-white fa fa-instagram"></span>
+						<div class="d-flex align-items-center justify-content-center">
+							<span class="f-40 text-white fa fa-instagram"></span>
+							<span class="f-32 text-white mx-16">+</span>
+							<span class="f-40 text-white fa fa-th-large"></span>
+						</div>
 						<div class="w-85 w-sm-55 center">
-							<h6 class="heading-4 text-white mt-16 mb-8">¿Cómo funciona el inicio de sesión?</h6>
-							<p class="text-white">
-								Se abrirá una nueva ventana para que puedas iniciar sesión en el sitio web de Instagram<br>
-								<mark>Esta aplicación no tendrá acceso a tu información personal en ningún momento.</mark><br><br>
-								Cuando hayas iniciado sesión correctamente, Instagram redireccionará con un token a una de nuestras páginas. Con este token la aplicación puede obtener la lista de tus posts.<br><br>
+							<h6 class="heading-3 text-white mt-16 mb-8">¿Cómo funciona el inicio de sesión?</h6>
+							<p class="f-large text-muted">
+								Se abrirá una nueva ventana para que puedas iniciar sesión en el sitio web oficial de Instagram<br>
+								<mark class="text-white">Grids Planner no tendrá acceso a tu información personal en ningún momento.</mark><br><br>
+								Cuando hayas iniciado sesión correctamente, Instagram redireccionará con un token a una de nuestras páginas. Con este token Grids Planner puede obtener la lista de tus posts.<br><br>
 								En ningún momento Instagram nos compartirá información personal de tu cuenta.<br>
-								<mark>Esta aplicación no puede subir ni editar posts que ya estén en tu cuenta.</mark>
+								<mark class="text-white">Esta aplicación no puede subir post, ni editar los posts que ya estén en tu cuenta.</mark>
 							</p>
 						</div>
 

@@ -1,15 +1,19 @@
 .heading{
 	&-2{
 		font-size: 32px;
-		line-height: 1.2em;
+		line-height: 1.15em;
 	}
 	&-3{
 		font-size: 26px;
-		line-height: 1.5em;
+		line-height: 1.4em;
 	}
 	&-4{
 		font-size: 22px;
-		line-height: 1.5em;
+		line-height: 1.4em;
+	}
+	&-5{
+		font-size: 20px;
+		line-height: 1.4em;
 	}
 }
 
@@ -27,12 +31,19 @@ $step: 2;
 	&-small{
 		font-size: 14px;
 	}
-	&-large{
+	&-medium{
 		font-size: 16px;
+		line-height: 1.4em;
+	}
+	&-large{
+		font-size: 18px;
 	}
 }
 
 .text{
+	&-white{color:#fff;}
+	&-muted{color:rgba(0,0,0,.7);}
+
 	&-left{text-align:left !important;}
 	&-right{text-align:right !important;}
 	&-center{text-align:center !important;}
@@ -69,5 +80,11 @@ h1, h2, h3, h4, h5, h6{
 		&-normal{font-weight:400;}
 		&-semibold{font-weight:500;}
 		&-bold{font-weight:700;}
+	}
+}
+
+.dark{
+	.text{
+		&-muted{color:rgba(255,255,255,.7);}
 	}
 }

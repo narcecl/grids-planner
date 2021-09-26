@@ -1,14 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Ubuntu:300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Ubuntu:300,400,500,700&display=swap');
 // @import url('https://www.korunarlidere.com/assets_front/icon-fonts/fontawesome-4.7.0/css/font-awesome.min.css');
 
-@mixin transition($property: all, $time: .3s){
-	-webkit-transition: $property $time ease;
-	-moz-transition: $property $time ease;
-	-o-transition: $property $time ease;
-	transition: $property $time ease;
-}
-
 @import "reset.scss";
+@import "mixins.scss";
 @import "variables.scss";
 @import "grid.scss";
 @import "helpers.scss";
@@ -16,12 +10,9 @@
 @import "animations.scss";
 
 body{font-family: 'Open Sans' !important;background: #fafafa;}
-h1,h2,h3,h4,h5,h6{font-family: 'Ubuntu' !important;}
-p{font-size:14px;line-height:normal;color:#555;}
-
-.text{
-	&-white{color:#fff;}
-}
+h1, h2 ,h3, h4, h5, h6{font-family: 'Ubuntu' !important;@include transition;}
+p{font-size:14px;line-height:1.5em;color:#555;@include transition;}
+main{min-height: 80vh;}
 
 .dark{
 	.bg{
@@ -38,14 +29,17 @@ p{font-size:14px;line-height:normal;color:#555;}
 }
 
 .section{
+	@include transition;
 	padding:48px 0;
+}
 
-	&.special{padding:92px 0;}
+.section-clean{
+	@include transition;
 }
 
 #app{
 	min-height:100vh;
-	transition:all .3s ease;
+	@include transition;
 	overflow-x:hidden;
 	
 	&.dark{

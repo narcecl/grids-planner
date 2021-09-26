@@ -14,10 +14,15 @@
 				</support>
 			</div>
 
-			<div class="post-area" :class="{ 'w-posts': postsList.length }">
-				<support type="success" :dismiss="true" class="mb-32" v-if="hasPost > 1">
-					<p>Todo listo, ahora puedes mover las fotos para ordenarlas a tu gusto. <mark>¡Diviertete!</mark></p>
-				</support>
+			<div class="post-area" :class="{ 'w-posts': postsList.length, mobile: isMobileViewport }">
+				<div :class="{container: isMobileViewport}">
+					<support type="info" :dismiss="true" class="mb-32" v-if="hasPost >= 9">
+						<p>
+							Esta aplicación <mark>aún está en desarrollo</mark>, por lo que las imágenes que has cargado podrían dejar de estar disponible aquí cuando cierres tu navegador.<br>
+							Para que no pierdas tu trabajo, te recomendamos ocuparla para organizar tu feed en un corto plazo.
+						</p>
+					</support>
+				</div>
 
 				<div class="cont" ref="cont">
 					<draggable :class="[ postsList.length ? 'row total' : '', {extramini: isMobileViewport}]" v-model="postsList" :move="checkMove" @start="drag = true" @end="drag = false">
@@ -55,8 +60,8 @@
 					<div class="cont text-center">
 						<span class="f-40 text-white fa fa-trash"></span>
 						<div class="w-85 w-sm-100 center">
-							<h6 class="heading-4 text-white mt-16">¿Estás seguro que quieres eliminar esta imagen?</h6>
-							<p class="f-large text-white">Esta acción no se puede deshacer y si la necesitas, tendrás que subirla nuevamente.</p>
+							<h6 class="heading-5 text-white mt-16 mb-4">¿Estás seguro que quieres eliminar esta imagen?</h6>
+							<p class="f-medium w-100 w-sm-60 center text-white">Esta acción no se puede deshacer. Si necesitas la imagen tendrás que subirla nuevamente.</p>
 						</div>
 
 						<div class="btn-holder mt-32">
@@ -222,7 +227,7 @@
 					}
 				})
 				.catch(error => {
-					console.log(error);
+					console.error(error);
 					this.gettingPosts = false;
 					this.instagramExpires = true;
 					this.$store.commit('loginStatus', false);
@@ -270,14 +275,20 @@
 }
 .dark{
 	.post-area.w-posts{
-		border-color:#333;
+		border-color: #333;
 	}
 }
 .post-area{
 	&.w-posts{
 		padding-top:48px;
 		transition:border-color .3s ease;
-		border-top:1px solid #ccc;
+		border-top:1px solid #e9e9e9;
+	}
+
+	&.mobile{
+		.grid-item{
+			border-radius:0;
+		}
 	}
 
 	.grid-item{
@@ -289,17 +300,19 @@
 			cursor: move;
 		}
 
-		.grid-cont{
-			width: 100%;
-			height: 100%;
-			position: relative;
-			overflow: hidden;
-
-			&:hover{
+		&:hover{
+			.grid-cont{
 				.control-item{
-					opacity:1;
+					opacity: 1;
 				}
 			}
+		}
+
+		.grid-cont{
+			width: 100%;
+			height: 50px;
+			position: relative;
+			overflow: hidden;
 
 			.from-instagram{
 				position: absolute;
