@@ -20,7 +20,7 @@
 					</div>
 					<div class="col-12 col-sm-4">
 						<figure class="full">
-							<img src="assets/images/iphone-1.png">
+							<img :src="`${this.path.assets}/images/iphone-1.png`" alt="Imagen">
 						</figure>
 					</div>
 				</div>
@@ -32,7 +32,7 @@
 				<div class="row total justify-content-between">
 					<div class="col-12 col-sm-4">
 						<figure class="full">
-							<img src="assets/images/iphone-1.png">
+							<img :src="`${this.path.assets}/images/iphone-1.png`" alt="Imagen">
 						</figure>
 					</div>
 					<div class="col-12 col-sm-6">
@@ -66,7 +66,7 @@
 					</div>
 					<div class="col-12 col-sm-4">
 						<figure class="full">
-							<img src="assets/images/iphone-1.png">
+							<img :src="`${this.path.assets}/images/iphone-1.png`" alt="Imagen">
 						</figure>
 					</div>
 				</div>
