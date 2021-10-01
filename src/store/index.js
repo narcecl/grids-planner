@@ -1,11 +1,13 @@
 export default{
 	state: {
 		theme: 'light',
-		instagram_login: null,
-		instagram_info: null,
-		login_status: false,
+		instagramLogin: null,
+		instagramInfo: null,
+		loginStatus: false,
+		instagramExpires: false,
+		instagramStorage: null,
 		posts: [],
-		insta_posts: []
+		instaPosts: []
 	},
 	getters: {
 		getTheme: function(state){
@@ -24,25 +26,39 @@ export default{
 			return state.posts.length ? state.posts.length : false;
 		},
 		getInstaPosts: function(state){
-			// Devuelve array de posts de instagram
-			return state.insta_posts;
+			// Devuelve array de posts de Instagram
+			return state.instaPosts;
 		},
 		loginStatus: function(state){
-			// Devuelve el estado del login de instagram
-			return state.login_status;
+			// Devuelve el estado del login de Instagram
+			return state.loginStatus;
 		},
 		instagramInfo: function(state){
-			return state.instagram_info;
+			// Devuelve la info del usuario obtenida de Instagram
+			return state.instagramInfo;
+		},
+		instagramStorage: function(state){
+			// Devuelve el localStorage
+			return state.instagramStorage;
 		}
 	},
 	actions: {
 		clearPosts: function(context){
+			// Elimina todos los posts
 			context.commit('clearPosts');
 		},
 		toggleOverflow: function(context, bool) {
 			var value = bool ? 'hidden' : 'auto';
 			document.body.style.overflow = value;
 		},
+		loginStatus: function(context, value){
+			// Seteamos el valor del estatus del login
+			context.state.loginStatus = value;
+		},
+		setInstagramStorage: function(context, value){
+			// Seteamos el valor del storage
+			context.state.instagramStorage = value;
+		}
 	},
 	mutations: {
 		clearPosts: function(state){
@@ -54,7 +70,7 @@ export default{
 		},
 		addInstaPost: function(state, image){
 			// Agregamos los posts que obtuvimos desde la sesion
-			state.insta_posts.push(image);
+			state.instaPosts.push(image);
 		},
 		addPost: function(state, value){
 			// Añade un post desde el dragArea al state
@@ -74,7 +90,8 @@ export default{
 			state.posts.splice(value, 1);
 		},
 		setInstagramInfo: function(state, value){
-			state.instagram_info = value;
+			// Guardamos la info del usuario que recibimos de Instagram
+			state.instagramInfo = value;
 		},
 		updatePostsList: function(state, value){
 			// Actualizamos la lista de posts desde el postsArea (vuedraggable)
@@ -90,11 +107,7 @@ export default{
 			let url_string = `?client_id=476586483443014&redirect_uri=${redirectUri}&scope=user_profile,user_media&response_type=code`;
 			let prop_string = `width=${winw},height=${winh},resizable=no,location=no,toolbar=no,titlebar=no,status=no,scrollbars=no,left=${x}',top=${y}`;
 			let url = `https://www.instagram.com/oauth/authorize${url_string}`;
-			state.instagram_login = window.open(url, '', prop_string);
-		},
-		loginStatus: function(state, value){
-			// Seteamos el valor del estatus del login
-			state.login_status = value;
+			state.instagramLogin = window.open(url, '', prop_string);
 		}
 	}
 }

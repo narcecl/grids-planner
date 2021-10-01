@@ -19,20 +19,31 @@
 	export default{
 		name: 'dragArea',
 		data: function(){
-			return {};
+			return {
+				
+			};
 		},
 		methods: {
 			addPost: function(items){
 				// Agregamos el nuevo item al store
-				Array.from(items).forEach(item => this.$store.commit('addPost', {image: URL.createObjectURL(item), drag: true}) );
+				Array.from(items).forEach(item => {
+					this.$store.commit('addPost', {
+						image: URL.createObjectURL(item),
+						drag: true
+					});
+				});
 			},
 			handleFile: function(e){
 				// Si encontramos un archivo, lo agregamos
-				if( e.target.files.length ) this.addPost(e.target.files);
+				if( e.target.files.length ){
+					this.addPost(e.target.files);
+				}
 			},
 			handleDrop: function(e){
 				// Si dejamos un archivo, lo agregamos
-				if( e.dataTransfer.files.length ) this.addPost(e.dataTransfer.files);
+				if( e.dataTransfer.files.length ){
+					this.addPost(e.dataTransfer.files);
+				}
 			}
 		}
 	}

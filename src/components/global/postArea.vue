@@ -8,11 +8,11 @@
 				</div>
 			</div>
 
-			<div v-if="!postsReady && instagramExpires">
+			<!-- <div v-if="!postsReady && instagramExpires">
 				<support type="info" :dismiss="true" class="mb-48">
 					<p>La sesión de Instagram caducó, por favor vuelve a iniciar sesión.</p>
 				</support>
-			</div>
+			</div> -->
 
 			<div class="post-area" :class="{ 'w-posts': postsList.length, mobile: isMobileViewport }">
 				<div :class="{container: isMobileViewport}">
@@ -87,55 +87,38 @@
 				containerWidth: 0,
 				postsReady: false,
 				gettingPosts: false,
-				instagramExpires: false,
-				instagramStorage: null,
 				modal: false,
 				modalImg: null
 			}
 		},
-		watch: {
-			instagramStorage: function(value){
-				// if( !this.$store.getters.loginStatus ){
-				if( this.hasStorage ){
-					// Si no esta el status activo, buscamos la info
-					this.getUserInfo();
-					this.getUserMedia();
-				}
-			}
-		},
 		computed: {
-			hasStorage: function(){
-				let hasStorage = (this.instagramStorage && 'access_token' in this.instagramStorage && 'user_id' in this.instagramStorage);
-				return (!this.postsReady && hasStorage);
-			},
 			hasPost: function(){
 				return this.$store.getters.hasPosts;
 			},
 			postsList: {
 				get: function(){
-					// Obtenemos la lista del store
+					// Obtenemos la lista del store + posts de insta (si es que hay)
 					return this.$store.getters.getPosts.concat(this.$store.getters.getInstaPosts);
 				},
 				set: function(posts){
-					// Actualizamos cuando movemos
+					// Actualizamos la lista de posts cuando movemos
 					this.$store.commit('updatePostsList', posts);
 				}
 			},
 			sizeController: function(){
 				if( this.ready ){
 					let item_width = (this.containerWidth / this.items_per_row) - 20;
+
 					return {
-						//width: item_width > 0 ? item_width + 'px' : false,
 						height: item_width > 0 ? item_width + 'px' : false
 					};
 				}
 			},
 			limitPreview: function(){
-				let max = this.window_height * 80 / 100;
-
+				// Obtenemos el alto maximo de la ventana (para la modal preview)
 				return {
 					overflow: 'auto',
-					maxHeight: `${ max }px`
+					maxHeight: `${ this.window_height * 80 / 100 }px`
 				};
 			}
 		},
@@ -168,93 +151,15 @@
 				this.prompt = false;
 				this.selected_index = null;
 			},
-			setInstagramStorage: function(){
-				let storage = localStorage.getItem('instagram').split(',');
-				this.instagramStorage = {
-					access_token: storage[0],
-					user_id: storage[1]
-				};
-			},
-			getUserInfo: function(){
-				this.$axios({
-					url: 'https://graph.instagram.com/v11.0/'+ this.instagramStorage.user_id,
-					params: {
-						access_token: this.instagramStorage.access_token,
-						fields: 'username'
-					}
-				})
-				.then(response => {
-					let data = response.data;
-					this.$store.commit('setInstagramInfo', data);
-				})
-				.catch(error => {
-					console.error(error);
-				});
-			},
-			getUserMedia: function(){
-				this.gettingPosts = true;
-				this.$axios({
-					url: 'https://graph.instagram.com/v11.0/'+ this.instagramStorage.user_id +'/media',
-					params: {
-						access_token: this.instagramStorage.access_token,
-						fields: 'media_url'
-					}
-				})
-				.then(response => {
-					let data = response.data;
-					let posts = data.data;
-
-					//this.$store.dispatch('clearPosts');
-
-					if( posts.length ){
-						// Si obtenemos resultados, los recorremos y los agreamos
-						//posts.reverse();
-
-						// Recorremos y agregamos los posts al store
-						posts.forEach((item, index) => {
-							this.$store.commit('addInstaPost', {
-								image: item.media_url,
-								drag: false
-							});
-
-							if( index === (posts.length-1) ){
-								// Llegamos al final
-								this.$store.commit('loginStatus', true);
-								this.postsReady = true;
-								this.gettingPosts = false;
-							}
-						});
-					}
-				})
-				.catch(error => {
-					console.error(error);
-					this.gettingPosts = false;
-					this.instagramExpires = true;
-					this.$store.commit('loginStatus', false);
-					localStorage.removeItem('instagram');
-				});
-			}
 		},
 		mounted: function(){
 			this.ready = true;
 			this.containerWidth = this.$refs.cont.offsetWidth;
 
-			// Hacemos la verificación del item
-			if( localStorage.getItem('instagram') ){
-				this.setInstagramStorage();
-			}
-
 			// Resize event para determinar el alto/ancho de las cajas
 			window.addEventListener('resize', () => {
 				if( typeof this.$refs.cont !== 'undefined' ){
 					this.containerWidth = this.$refs.cont.offsetWidth;
-				}
-			});
-
-			// Agregamos el evento para saber si se agrega la storage en otra ventana
-			window.addEventListener('storage', () => {
-				if( localStorage.getItem('instagram') ){
-					this.setInstagramStorage();
 				}
 			});
 		}

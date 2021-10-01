@@ -75,8 +75,90 @@ const main = new Vue({
 	store,
 	data: function(){
 		return {
-			ready: true
+			ready: false
 		};
+	},
+	// watch: {
+	// 	instagramStorage: function(value){
+	// 		if( this.hasStorage ){
+	// 			// Si no esta el status activo, buscamos la info
+	// 			this.getUserInfo();
+	// 			this.getUserMedia();
+	// 		}
+	// 	}
+	// },
+	computed: {
+		hasStorage: function(){
+			return (this.$store.getters.instagramStorage && 'access_token' in this.$store.getters.instagramStorage && 'user_id' in this.$store.getters.instagramStorage);
+		},
+	},
+	methods: {
+		setInstagramStorage: function(){
+			let storage = localStorage.getItem('instagram').split(',');
+
+			this.$store.dispatch('setInstagramStorage', {
+				access_token: storage[0],
+				user_id: storage[1]
+			});
+
+			this.$store.dispatch('loginStatus', true);
+
+			this.getUserInfo();
+			this.getUserMedia();
+		},
+		getUserInfo: function(){
+			this.$axios({
+				url: `https://graph.instagram.com/v11.0/${ this.$store.getters.instagramStorage.user_id }`,
+				params: {
+					access_token: this.$store.getters.instagramStorage.access_token,
+					fields: 'username'
+				}
+			})
+			.then(response => {
+				let data = response.data;
+				this.$store.commit('setInstagramInfo', data);
+			})
+			.catch(error => {
+				console.error(error);
+			});
+		},
+		getUserMedia: function(){
+			this.$axios({
+				url: `https://graph.instagram.com/v11.0/${ this.$store.getters.instagramStorage.user_id }/media`,
+				params: {
+					access_token: this.$store.getters.instagramStorage.access_token,
+					fields: 'media_url'
+				}
+			})
+			.then(response => {
+				let data = response.data;
+				let posts = data.data;
+
+				// Obtuvimos resultados (posts)
+				if( posts.length ){
+					// Recorremos y agregamos los posts al store
+					posts.forEach((item, index) => {
+						this.$store.commit('addInstaPost', {
+							image: item.media_url,
+							drag: false
+						});
+
+						if( index === (posts.length-1) ){
+							// Llegamos al final
+							this.postsReady = true;
+							this.gettingPosts = false;
+						}
+					});
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				//this.gettingPosts = false;
+				//this.instagramExpires = true;
+				this.$store.commit('loginStatus', false);
+				localStorage.removeItem('instagram');
+			});
+		}
 	},
 	created: function(){
 		// Progress Bar
@@ -101,6 +183,18 @@ const main = new Vue({
 			else {
 				// Si tiene el modo claro, lo cambiamos
 				this.$store.commit('toggleTheme', 'light');
+			}
+		});
+
+		// Hacemos la verificación del item
+		if( localStorage.getItem('instagram') ){
+			this.setInstagramStorage();
+		}
+
+		// Agregamos el evento para saber si se agrega la storage en otra ventana
+		window.addEventListener('storage', () => {
+			if( localStorage.getItem('instagram') ){
+				this.setInstagramStorage();
 			}
 		});
 	}

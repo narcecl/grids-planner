@@ -21,7 +21,7 @@
 							<div class="d-flex align-items-center">
 								<span class="fa fa-instagram"></span>
 								<p class="ml-16">
-									<span class="f-12 d-block">Logueado como:</span>
+									<span class="f-12 d-block">Conectado como</span>
 									<mark>@{{ $store.getters.instagramInfo.username }}</mark>
 								</p>
 							</div>
