@@ -73,8 +73,10 @@
 				})
 				.then(response => {
 					// Todo bien, seteamos el local storage
+					console.log('response =>', response.data);
 					this.success = true;
 					this.setLocalStorage(response.data);
+					// Cerramos la ventana (popup)
 					this.closeWindow();
 				})
 				.catch(error => {
@@ -88,7 +90,7 @@
 				});
 			},
 			setLocalStorage: function(data){
-				// Seteamos el valor en el localStorage
+				// Seteamos la info del usuario en el localStorage
 				localStorage.setItem('instagram', [data.access_token, data.user_id].join(','));
 			},
 			redirectHome: function(){

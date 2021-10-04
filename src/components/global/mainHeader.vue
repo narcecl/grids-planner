@@ -2,7 +2,7 @@
 	<div class="app-header">
 		<div class="container">
 			<div class="row align-items-center">
-				<div class="col-6 col-sm-8">
+				<div class="col-6 col-sm-6">
 					<div class="logo-group d-flex align-items-center">
 						<router-link :to="{name: 'home'}" class="logo d-flex align-items-center">
 							<span class="fa fa-th-large isotype"></span>
@@ -11,7 +11,7 @@
 						<span class="text d-none d-sm-block">Instagram Feed Planner</span>
 					</div>
 				</div>
-				<div class="col-6 col-sm-4">
+				<div class="col-6 col-sm-6">
 					<div class="d-flex align-items-center justify-content-end">
 						<a href="#" class="btn-ingresar" @click.prevent="prompt = true" v-if="!$store.getters.loginStatus">
 							<span class="fa fa-instagram"></span>
@@ -72,7 +72,9 @@
 		},
 		methods: {
 			openLogin: function(){
+				// Cerramos la modal
 				this.prompt = false;
+				// Abrimos la ventana de login de Instagram
 				this.$store.commit('showLogin', this.path.redirect);
 			}
 		}

@@ -15,10 +15,11 @@ export default{
 			return state.theme;
 		},
 		isDarkMode: function(state){
+			// Devuelve Bool si el theme es dark
 			return state.theme === 'dark';
 		},
 		getPosts: function(state){
-			// Devuelve array de posts
+			// Devuelve array de posts (cargados manualmente)
 			return state.posts;
 		},
 		hasPosts: function(state){
@@ -26,7 +27,7 @@ export default{
 			return state.posts.length ? state.posts.length : false;
 		},
 		getInstaPosts: function(state){
-			// Devuelve array de posts de Instagram
+			// Devuelve array de posts cargados desde Instagram
 			return state.instaPosts;
 		},
 		loginStatus: function(state){
