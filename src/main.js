@@ -100,6 +100,7 @@ const main = new Vue({
 			if( this.hasStorage && !this.$store.getters.getInstaPosts.length ){
 				// Obtenemos la info y los posts del usuario
 				this.getUserInfo();
+				// code 190 (expired)
 				this.getUserMedia();
 			}
 			else{
@@ -224,6 +225,7 @@ router.beforeEach((to, from, next) => {
 	// Avanzamos
 	next();
 });
+
 
 router.afterEach(() => {
 	// Eventos después de pasar a otra página (Router)
